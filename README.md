@@ -64,6 +64,14 @@ By default the package provides two drivers. The default for uploading files fro
 $media = Upload::with('url')->handle($request, 'http://domain.com/somefile.jpg');
 ```
 
+You can also replace an existing model instead of create a new one. 
+
+```php
+$media = Upload::update($current_model)->handle($request, 'file');
+```
+
+
+
 
 
 
