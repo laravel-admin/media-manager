@@ -46,4 +46,24 @@ $media = Upload::handle($request, 'file');
 
 > Note: the first parameter of the handle method is the default Laravel Request object. The second parameter is the name of the submitted file.
 
+It's possible to upload a file to another storage. This storage has to be a configured storage as in config/filesystems.php
+
+```php
+$media = Upload::storage('s3')->handle($request, 'file');
+```
+
+> Note: The Eloquent model saves the storage in the database, so your application always knows where to find the uploaded file.
+
+The Uploader uses a driver based system to add files to your storage and database. You can create your own drivers and add it to the media config, within upload/drivers. Your driver has to implement the following interface:
+
+    Marcoboom\Mediamanager\Contracts\UploadDriver
+    
+By default the package provides two drivers. The default for uploading files from your request and a second one 'url' to directly save files from an url. To change the driver, just do:
+
+```php
+$media = Upload::with('url')->handle($request, 'http://domain.com/somefile.jpg');
+```
+
+
+
 
