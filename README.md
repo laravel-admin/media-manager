@@ -9,7 +9,7 @@ This package has 4 main goals:
 > Note: This package is still under development. Using it on productions environments is on your own risk. Collaborations and tips are always welcome
 
 ## Requirements
-This package is completely build on the philosofy of Laravel 5.3. It uses the 5.3 method to quickly upload files and a Vue components setup as in Laravel Elixir 6. Do not use this package for Laravel 5.2 or lower.
+This package is completely build on the philosofy of Laravel 5.3. It uses the 5.3 method to quickly upload files and a Vue components setup as in Laravel Elixir 6. Do not use this package for Laravel 5.2 or lower. The templates of the Vue components are completly build on Bootstrap 3.
 
 ## Installation
 
