@@ -11,7 +11,7 @@
 		"psr-4": {
 			"Marcoboom\\MediaManager\\": "src"
 		}
-    }
+    },
     "license": "MIT",
     "authors": [
         {
