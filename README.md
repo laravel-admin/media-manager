@@ -101,6 +101,16 @@ class Blog extends Model
 	use MediaTrait;
 ```
 
+The trait is based on the convention that the field you add in your database is called 'media_id'. If you prefer another naming, or you have more than one field like a header, just add a relation manually to your model:
+
+```php
+public function myfieldname()
+{
+	return $this->belongsTo(\Marcoboom\MediaManager\Models\Media::class);
+}
+```
+
+
 
 
 
