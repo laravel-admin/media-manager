@@ -24,6 +24,10 @@ Add the ServiceProvider to the providers array in app/config/app.php
 If you want to edit the config or backend views you need to publish these resources to your application
 
     php artisan vendor:publish
+    
+The package generates a migration file for the media model, so migrate your database to create the table.
+
+    php artisan migrate
 
 To use the Vue components in your (admin) applications, require the javascript bootstrap file from your vendor folder in your app.js file.
 
