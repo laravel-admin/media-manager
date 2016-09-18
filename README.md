@@ -32,6 +32,10 @@ The package generates a migration file for the media model, so migrate your data
 To use the Vue components in your (admin) applications, require the javascript bootstrap file from your vendor folder in your app.js file.
 
     require('../../../vendor/marcoboom/laravel-media-manager/resources/js/bootstrap.js');
+    
+> Note: The javascript requires Dropzone to work, use the following statement to install it:
+
+    npm install dropzone --save-dev
 
 ## Upload media
 
