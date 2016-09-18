@@ -14,14 +14,14 @@
 						{{ item ? item.type : '-' }}
 					</p>
 
-					<button class="btn btn-primary" v-on:click="showBrowser=true">{{ item ? 'wijzig' : 'voeg toe' }}</button>
+					<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">{{ item ? 'wijzig' : 'voeg toe' }}</button>
 					<a v-if="item" v-bind:href="item.url" target="_blank" class="btn btn-default">Bekijk</a>
-					<button v-if="item" class="btn btn-danger" v-on:click="item=null">Verwijder</button>
+					<button v-if="item" class="btn btn-danger" v-on:click.prevent="item=null">Verwijder</button>
 
 				</div>
 			</div>
 			<div v-else>
-				<button class="btn btn-primary" v-on:click="showBrowser=true">voeg afbeelding toe</button>
+				<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">voeg afbeelding toe</button>
 			</div>
 		</div>
 	</div>
