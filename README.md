@@ -74,7 +74,32 @@ You can also replace an existing model instead of create a new one.
 $media = Upload::update($current_model)->handle($request, 'file');
 ```
 
+##  Create a relation
 
+If you want to create a relation between your model and the media model, you can do this simple to add a field to your table and add the MediaTrait to your model.
+
+Create a migration and add the following:
+
+```php
+$table->integer('media_id')->unsigned()->nullable();
+$table->foreign('media_id')->references('id')->on('media')->onDelete('set null');	
+```
+
+> Note: add ->after('fieldname') to add the field at the position you want.
+
+Now add the MediaTrait to your model
+
+```php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Marcoboom\MediaManager\Traits\MediaTrait;
+
+class Blog extends Model
+{
+	use MediaTrait;
+```
 
 
 
