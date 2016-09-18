@@ -33,3 +33,17 @@ To use the Vue components in your (admin) applications, require the javascript b
 
     require('../../../vendor/marcoboom/laravel-media-manager/resources/js/bootstrap.js');
 
+## Upload media
+
+With the following code you can upload a file to your default storage and returns the created media model.
+
+```php
+use Marcoboom\MediaManager\Upload;
+
+$media = Upload::handle($request, 'file');
+
+```
+
+> Note: the first parameter of the handle method is the default Laravel Request object. The second parameter is the name of the submitted file.
+
+
