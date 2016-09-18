@@ -25,5 +25,7 @@ If you want to edit the config or backend views you need to publish these resour
 
     php artisan vendor:publish
 
+To use the Vue components in your (admin) applications, require the javascript bootstrap file from your vendor folder in your app.js file.
 
+    require('../../../vendor/marcoboom/laravel-media-manager/resources/js/bootstrap.js');
 
