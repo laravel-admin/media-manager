@@ -62,7 +62,7 @@ class Media extends Model
 			return Storage::disk($this->storage)->url($this->source);
 		}
 
-		return url(implode('/', [config('media.controllers.file'), $this->id, $this->name]));
+		return url(implode('/', [config('media.routes.frontend.options.prefix'),'file', $this->id, $this->name]));
 	}
 
 	/**
