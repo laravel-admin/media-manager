@@ -110,6 +110,25 @@ public function myfieldname()
 }
 ```
 
+Now the trait is integrated, for now there are two new methods available on your model
+
+* mediaUrl
+* imagestyle
+
+### mediaUrl
+The mediaUrl method directly returns the public url of the connected media on your model
+
+	$blog->mediaUrl();
+	
+> Note: As parameter it is possible to send a custom media field.
+
+### imagestyle
+The imagestyle receives the imagestyle you want and return directly the url of the style. As second parameter you can pass a custom relation instead of 'media'.
+
+	$blog->imagestyle('thumbnail');
+
+
+
 
 
 
