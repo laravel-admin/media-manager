@@ -15,15 +15,15 @@ This package is completely build on the philosofy of Laravel 5.3. It uses the 5.
 
 Require this package with Composer
     
-`composer require marcoboom/laravel-media-manager`
+    composer require marcoboom/laravel-media-manager
     
 Add the ServiceProvider to the providers array in app/config/app.php
 
-`Marcoboom\MediaManager\MediaManagerProvider::class`
+    Marcoboom\MediaManager\MediaManagerProvider::class
 
 If you want to edit the config or backend views you need to publish these resources to your application
 
-`php artisan vendor:publish`
+    php artisan vendor:publish
 
 
 
