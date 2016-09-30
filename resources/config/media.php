@@ -13,20 +13,20 @@ return [
 		'default_driver'	=>	'fileupload',
 
 		'drivers'			=>	[
-				'fileupload' 	=>	Marcoboom\MediaManager\Drivers\Uploads\FileUpload::class,
-				'url'			=>	Marcoboom\MediaManager\Drivers\Uploads\Url::class,
+				'fileupload' 	=>	LaravelAdmin\MediaManager\Drivers\Uploads\FileUpload::class,
+				'url'			=>	LaravelAdmin\MediaManager\Drivers\Uploads\Url::class,
 		],
 	],
 
 	'routes'		=>	[
 		'frontend'	=>	[
-			'controller'	=>	Marcoboom\MediaManager\Controllers\FrontendController::class,
+			'controller'	=>	LaravelAdmin\MediaManager\Controllers\FrontendController::class,
 			'name'			=>	'media-manager.frontend.',
 			'options'		=>	[],
 		],
 
 		'backend'	=>	[
-			'controller'	=>	Marcoboom\MediaManager\Controllers\BackendController::class,
+			'controller'	=>	LaravelAdmin\MediaManager\Controllers\BackendController::class,
 			'name'			=>	'media-manager.backend.',
 			'options'		=>	[
 				'middleware'	=>	['auth'],
@@ -35,7 +35,7 @@ return [
 		],
 
 		'ajax'		=>	[
-			'controller'	=>	Marcoboom\MediaManager\Controllers\AjaxController::class,
+			'controller'	=>	LaravelAdmin\MediaManager\Controllers\AjaxController::class,
 			'name'			=>	'media-manager.ajax.',
 			'options'		=>	[
 				'middleware'	=>	['auth'],
@@ -50,9 +50,9 @@ return [
 			'id'	=>	'thumbnail',
 			'name'	=>	'Thumbnail (100x100)',
 			'actions' => [
-				Marcoboom\MediaManager\Drivers\Responses\GetFromCache::class => [],
-				Marcoboom\MediaManager\Drivers\Effects\Crop::class => ['width'=>100, 'height'=>100],
-				Marcoboom\MediaManager\Drivers\Responses\SaveToCache::class => [],
+				LaravelAdmin\MediaManager\Drivers\Responses\GetFromCache::class => [],
+				LaravelAdmin\MediaManager\Drivers\Effects\Crop::class => ['width'=>100, 'height'=>100],
+				LaravelAdmin\MediaManager\Drivers\Responses\SaveToCache::class => [],
 			]
 		],
 
@@ -60,8 +60,8 @@ return [
 			'id'	=>	'header',
 			'name'	=>	'Header (1400x500)',
 			'actions'	=>	[
-				Marcoboom\MediaManager\Drivers\Effects\Fit::class => ['width'=>1400, 'height'=>500],
-				Marcoboom\MediaManager\Drivers\Responses\SaveToStorage::class => [],
+				LaravelAdmin\MediaManager\Drivers\Effects\Fit::class => ['width'=>1400, 'height'=>500],
+				LaravelAdmin\MediaManager\Drivers\Responses\SaveToStorage::class => [],
 			]
 		],
 	],

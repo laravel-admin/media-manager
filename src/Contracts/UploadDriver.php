@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcoboom\MediaManager\Contracts;
+namespace LaravelAdmin\MediaManager\Contracts;
 
 use Illuminate\Http\Request;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Marcoboom\MediaManager\Traits;
+namespace LaravelAdmin\MediaManager\Traits;
 
 trait MediaTrait
 {
 	public function media()
 	{
-		return $this->belongsTo(\Marcoboom\MediaManager\Models\Media::class);
+		return $this->belongsTo(\LaravelAdmin\MediaManager\Models\Media::class);
 	}
 
 	public function mediaUrl($field="media")

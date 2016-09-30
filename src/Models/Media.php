@@ -1,11 +1,11 @@
 <?php
 
-namespace Marcoboom\MediaManager\Models;
+namespace LaravelAdmin\MediaManager\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Storage;
 
-use Marcoboom\MediaManager\Imagestyle;
+use LaravelAdmin\MediaManager\Imagestyle;
 
 class Media extends Model
 {

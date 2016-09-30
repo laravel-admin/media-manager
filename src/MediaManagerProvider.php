@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcoboom\MediaManager;
+namespace LaravelAdmin\MediaManager;
 
 use Illuminate\Support\ServiceProvider;
 

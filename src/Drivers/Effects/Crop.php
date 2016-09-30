@@ -1,9 +1,9 @@
 <?php
 
-namespace Marcoboom\MediaManager\Drivers\Effects;
+namespace LaravelAdmin\MediaManager\Drivers\Effects;
 
-use Marcoboom\MediaManager\Imagestyle;
-use Marcoboom\MediaManager\Contracts\ImagestyleAction;
+use LaravelAdmin\MediaManager\Imagestyle;
+use LaravelAdmin\MediaManager\Contracts\ImagestyleAction;
 
 class Crop implements ImagestyleAction
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Marcoboom\MediaManager;
+namespace LaravelAdmin\MediaManager;
 
 use Illuminate\Http\Request;
-use Marcoboom\MediaManager\Models\Media;
+use LaravelAdmin\MediaManager\Models\Media;
 use Storage;
 
 use GuzzleHttp\Client as Guzzle;

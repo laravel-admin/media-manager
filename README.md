@@ -14,25 +14,25 @@ This package is completely build on the philosofy of Laravel 5.3. It uses the 5.
 ## Installation
 
 Require this package with Composer
-    
-    composer require marcoboom/laravel-media-manager
-    
+
+    composer require laravel-admin/media-manager
+
 Add the ServiceProvider to the providers array in app/config/app.php
 
-    Marcoboom\MediaManager\MediaManagerProvider::class
+    LaravelAdmin\MediaManager\MediaManagerProvider::class
 
 If you want to edit the config or backend views you need to publish these resources to your application
 
     php artisan vendor:publish
-    
+
 The package generates a migration file for the media model, so migrate your database to create the table.
 
     php artisan migrate
 
 To use the Vue components in your (admin) applications, require the javascript bootstrap file from your vendor folder in your app.js file.
 
-    require('../../../vendor/marcoboom/laravel-media-manager/resources/js/bootstrap.js');
-    
+    require('../../../vendor/laravel-admin/media-manager/resources/js/bootstrap.js');
+
 > Note: The javascript requires Dropzone to work, use the following statement to install it:
 
     npm install dropzone --save-dev
@@ -42,7 +42,7 @@ To use the Vue components in your (admin) applications, require the javascript b
 With the following code you can upload a file to your default storage and returns the created media model.
 
 ```php
-use Marcoboom\MediaManager\Upload;
+use LaravelAdmin\MediaManager\Upload;
 
 $media = Upload::handle($request, 'file');
 
@@ -60,15 +60,15 @@ $media = Upload::storage('s3')->handle($request, 'file');
 
 The Uploader uses a driver based system to add files to your storage and database. You can create your own drivers and add it to the media config, within upload/drivers. Your driver has to implement the following interface:
 
-    Marcoboom\Mediamanager\Contracts\UploadDriver
-    
+    LaravelAdmin\Mediamanager\Contracts\UploadDriver
+
 By default the package provides two drivers. The default for uploading files from your request and a second one 'url' to directly save files from an url. To change the driver, just do:
 
 ```php
 $media = Upload::with('url')->handle($request, 'http://domain.com/somefile.jpg');
 ```
 
-You can also replace an existing model instead of create a new one. 
+You can also replace an existing model instead of create a new one.
 
 ```php
 $media = Upload::update($current_model)->handle($request, 'file');
@@ -82,7 +82,7 @@ Create a migration and add the following:
 
 ```php
 $table->integer('media_id')->unsigned()->nullable();
-$table->foreign('media_id')->references('id')->on('media')->onDelete('set null');	
+$table->foreign('media_id')->references('id')->on('media')->onDelete('set null');
 ```
 
 > Note: add ->after('fieldname') to add the field at the position you want.
@@ -94,7 +94,7 @@ Now add the MediaTrait to your model
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Marcoboom\MediaManager\Traits\MediaTrait;
+use LaravelAdmin\MediaManager\Traits\MediaTrait;
 
 class Blog extends Model
 {
@@ -106,7 +106,7 @@ The trait is based on the convention that the field you add in your database is 
 ```php
 public function myfieldname()
 {
-	return $this->belongsTo(\Marcoboom\MediaManager\Models\Media::class);
+	return $this->belongsTo(\LaravelAdmin\MediaManager\Models\Media::class);
 }
 ```
 
@@ -119,17 +119,10 @@ Now the trait is integrated, for now there are two new methods available on your
 The mediaUrl method directly returns the public url of the connected media on your model
 
 	$blog->mediaUrl();
-	
+
 > Note: As parameter it is possible to send a custom media field.
 
 ### imagestyle
 The imagestyle receives the imagestyle you want and return directly the url of the style. As second parameter you can pass a custom relation instead of 'media'.
 
 	$blog->imagestyle('thumbnail');
-
-
-
-
-
-
-

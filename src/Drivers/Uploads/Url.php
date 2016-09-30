@@ -1,11 +1,11 @@
 <?php
 
-namespace Marcoboom\MediaManager\Drivers\Uploads;
+namespace LaravelAdmin\MediaManager\Drivers\Uploads;
 
 use Illuminate\Http\Request;
-use Marcoboom\MediaManager\Contracts\UploadDriver;
-use Marcoboom\MediaManager\Helpers;
-use Marcoboom\MediaManager\Upload;
+use LaravelAdmin\MediaManager\Contracts\UploadDriver;
+use LaravelAdmin\MediaManager\Helpers;
+use LaravelAdmin\MediaManager\Upload;
 
 use Storage;
 

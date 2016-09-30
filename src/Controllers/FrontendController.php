@@ -1,12 +1,12 @@
 <?php
 
-namespace Marcoboom\MediaManager\Controllers;
+namespace LaravelAdmin\MediaManager\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use Marcoboom\MediaManager\Models\Media;
-use Marcoboom\MediaManager\Imagestyle;
+use LaravelAdmin\MediaManager\Models\Media;
+use LaravelAdmin\MediaManager\Imagestyle;
 use Storage;
 
 class FrontendController extends Controller {

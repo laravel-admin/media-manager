@@ -1,8 +1,8 @@
 <?php
 
-namespace Marcoboom\MediaManager;
+namespace LaravelAdmin\MediaManager;
 
-use Marcoboom\MediaManager\Models\Media;
+use LaravelAdmin\MediaManager\Models\Media;
 use Storage;
 use Intervention\Image\ImageManagerStatic as ImageMaker;
 

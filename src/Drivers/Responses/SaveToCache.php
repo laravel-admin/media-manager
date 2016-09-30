@@ -1,9 +1,9 @@
 <?php
 
-namespace Marcoboom\MediaManager\Drivers\Responses;
+namespace LaravelAdmin\MediaManager\Drivers\Responses;
 
-use Marcoboom\MediaManager\Imagestyle;
-use Marcoboom\MediaManager\Contracts\ImagestyleAction;
+use LaravelAdmin\MediaManager\Imagestyle;
+use LaravelAdmin\MediaManager\Contracts\ImagestyleAction;
 use Cache;
 
 class SaveToCache implements ImagestyleAction
