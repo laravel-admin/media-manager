@@ -20,8 +20,9 @@ import Dropzone from 'dropzone';
 
 export default {
 
+
 	data() {
-		return {progress:0}
+		return {progress:0};
 	},
 
     props : {
@@ -66,7 +67,7 @@ export default {
             url: this.path,
             paramName: this.file,
             createImageThumbnails: this.createImageThumbnails,
-            clickable: this.clickable,
+            clickable: '#media-browser-'+this.name+' '+this.clickable,
             previewTemplate: this.previewTemplate
         };
         // let dz = new Dropzone(this.target, params);
