@@ -1,5 +1,5 @@
 {
-    "name": "marcoboom/laravel-media-manager",
+    "name": "laravel-admin/media-manager",
     "description": "Provides a model around the storage, gives you image styles and a admin to manage your media",
     "type": "laravel-package",
     "require": {
@@ -9,7 +9,7 @@
     },
     "autoload": {
 		"psr-4": {
-			"Marcoboom\\MediaManager\\": "src"
+			"LaravelAdmin\\MediaManager\\": "src"
 		}
     },
     "license": "MIT",
