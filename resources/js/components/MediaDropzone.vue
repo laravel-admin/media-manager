@@ -25,7 +25,9 @@ export default {
 	},
 
     props : {
-
+			name: {
+				default: 'media_id'
+			},
             multiple : {
                 default : false
             },
@@ -68,7 +70,7 @@ export default {
             previewTemplate: this.previewTemplate
         };
         // let dz = new Dropzone(this.target, params);
-        let dz = new Dropzone($('.media-browser .modal-body')[0], params);
+        let dz = new Dropzone(document.querySelector('#media-browser-'+this.name), params);
 
         dz.on("sending", (file, xhr, formData) => {
             this.$dispatch('file-sending', file);

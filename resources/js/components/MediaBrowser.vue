@@ -1,5 +1,5 @@
 <template>
-	<div  class="modal fade media-browser" v-bind:class="{'in':show, 'show':show}" tabindex="-1" role="dialog" style="overflow-y:inherit; max-height:inherit;">
+	<div id="media-browser-{{ name }}" class="modal fade media-browser" v-bind:class="{'in':show, 'show':show}" tabindex="-1" role="dialog" style="overflow-y:inherit; max-height:inherit;">
 	  <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -13,7 +13,7 @@
 
 	      <div class="modal-body" style="max-height: 320px;	overflow-y: auto;">
 			<div class="row">
-				<media-dropzone :files.sync="items" clickable=".media-browser-upload" :path="controller"></media-dropzone>
+				<media-dropzone :name="name" :files.sync="items" clickable=".media-browser-upload" :path="controller"></media-dropzone>
 			</div>
 	      	<div class="row">
 		  		<span v-if="items.length">
@@ -26,7 +26,7 @@
 				<p class="text-center" v-else>Geen resultaten gevonden</p>
 	      	</div>
 	      	<div class="row text-center">
-	      		<button class="btn btn-primary more" v-show="showmore" v-on:click="loadItems">Laad meer</button>
+	      		<button class="btn btn-primary more" v-show="showmore" v-on:click.prevent="loadItems">Laad meer</button>
 	      	</div>
 	      </div>
 	      <div class="modal-footer">
@@ -41,22 +41,19 @@
 
 <script>
     export default {
-        ready() {
-            this.loadItems();
-        },
 
 		data() {
-			return {search:null, keyword:'', showmore:false, items:[], next_page:1};
+			return {show:false, search:null, keyword:'', showmore:false, items:[], next_page:1};
 		},
 
 		props : {
 			controller: {
-					default: '/admin/media/ajax',
+					default: '/admin/media/ajax'
 			},
 
-            show : {
-                default : false
-            },
+			name: {
+				default: 'media_id'
+			},
 
             selected : {
                 default : null
@@ -74,6 +71,14 @@
 
 				return selected.length ? true : false;
 			}
+		},
+
+		events: {
+		    'show-browser': function (bool) {
+				if (bool) this.reloadItems();
+
+		      	this.show = bool;
+		    }
 		},
 
 		methods: {

@@ -14,28 +14,22 @@
 						{{ item ? item.type : '-' }}
 					</p>
 
-					<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">{{ item ? 'wijzig' : 'voeg toe' }}</button>
+					<button class="btn btn-primary" v-on:click.prevent="showBrowser()">{{ item ? 'wijzig' : 'voeg toe' }}</button>
 					<a v-if="item" v-bind:href="item.url" target="_blank" class="btn btn-default">Bekijk</a>
 					<button v-if="item" class="btn btn-danger" v-on:click.prevent="item=null">Verwijder</button>
 
 				</div>
 			</div>
 			<div v-else>
-				<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">voeg afbeelding toe</button>
+				<button class="btn btn-primary" v-on:click.prevent="showBrowser()">voeg afbeelding toe</button>
 			</div>
 		</div>
 	</div>
-	<media-browser :show.sync="showBrowser" :selected.sync="item" :multiple="false" :controller="controller"></media-browser>
+	<media-browser :name="name" :selected.sync="item" :multiple="false" :controller="controller"></media-browser>
 </template>
 
 <script>
     export default {
-
-		data() {
-			return {
-				showBrowser:false
-			};
-		},
 
 		props : {
 			controller: {
@@ -49,6 +43,14 @@
             item : {
                 default : null
             }
+		},
+
+		methods: {
+
+			showBrowser: function()
+			{
+				this.$broadcast('show-browser', true);
+ 			}
 		}
     }
 </script>
