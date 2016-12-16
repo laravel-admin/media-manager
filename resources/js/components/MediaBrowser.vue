@@ -1,5 +1,5 @@
 <template>
-	<div :id="'media-browser-'+name" class="modal fade media-browser" v-bind:class="{'in':show, 'show':show}" tabindex="-1" role="dialog" style="overflow-y:inherit; max-height:inherit;">
+	<div :id="'media-browser-'+name" class="modal fade media-browser in show"  tabindex="-1" role="dialog" style="overflow-y:inherit; max-height:inherit;">
 	  <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -31,7 +31,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary media-browser-upload">Upload</button>
-	        <button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="show=false">Sluit</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Sluit</button>
 	        <button type="button" class="btn btn-primary confirm" :disabled="!hasSelection" v-on:click.prevent="confirmSelection">Selecteer</button>
 	      </div>
 	    </div>
@@ -43,12 +43,12 @@
     export default {
 
 		data() {
-			return {show:false, search:null, keyword:'', showmore:false, items:[], next_page:1};
+			return {search:null, keyword:'', showmore:false, items:[], next_page:1};
 		},
 
 		mounted()
 		{
-			VueHub.$on('show-browser', this.showBrowser);
+			this.loadItems();
 		},
 
 		props : {
@@ -78,18 +78,7 @@
 			}
 		},
 
-		events: {
-
-		},
-
 		methods: {
-
-			showBrowser(bool)
-			{
-				if (bool) this.reloadItems();
-
-		      	this.show = bool;
-		    },
 
 			reloadItems: _.debounce(function()
 			{
@@ -144,8 +133,8 @@
 
 				if (selection = this.selectedItems())
 				{
-					VueHub.$emit('update-selected-media', selection.shift());
-					this.show = false;
+					this.$emit('update', selection.shift());
+					this.$emit('close');
 				}
 			}
 		}

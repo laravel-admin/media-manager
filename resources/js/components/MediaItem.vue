@@ -16,18 +16,18 @@
 						{{ obj ? obj.type : '-' }}
 					</p>
 
-					<button class="btn btn-primary" v-on:click.prevent="showBrowser()">{{ obj ? 'wijzig' : 'voeg toe' }}</button>
+					<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">{{ obj ? 'wijzig' : 'voeg toe' }}</button>
 					<a v-if="obj" v-bind:href="obj.url" target="_blank" class="btn btn-default">Bekijk</a>
 					<button v-if="obj" class="btn btn-danger" v-on:click.prevent="obj=null">Verwijder</button>
 
 				</div>
 			</div>
 			<div v-else>
-				<button class="btn btn-primary" v-on:click.prevent="showBrowser()">voeg afbeelding toe</button>
+				<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">voeg afbeelding toe</button>
 			</div>
 		</div>
 	</div>
-	<media-browser :name="name" :selected="obj" :multiple="false" :controller="controller"></media-browser>
+	<media-browser v-if="showBrowser" :name="name" :selected="obj" :multiple="false" :controller="controller" @update="updateSelected" @close="showBrowser=false"></media-browser>
 </div>
 </template>
 
@@ -36,14 +36,13 @@
 
 		data()
 		{
-			return {obj:null}
+			return {obj:null, showBrowser:false}
 		},
 
 		mounted()
 		{
 			this.obj = this.item;
 
-			VueHub.$on('update-selected-media', this.updateSelected);
 		},
 
 		props : {
@@ -65,12 +64,7 @@
 			updateSelected(item)
 			{
 				this.obj = item;
-			},
-
-			showBrowser: function()
-			{
-				VueHub.$emit('show-browser', true);
- 			}
+			}
 		}
     }
 </script>
