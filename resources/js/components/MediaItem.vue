@@ -1,22 +1,24 @@
 <template>
+	<div>
+
 	<div class="panel panel-default">
-		<div class="panel-heading">{{ item ? item.name : 'No selection made' }}</div>
+		<div class="panel-heading">{{ obj ? obj.name : 'No selection made' }}</div>
 		<div class="panel-body">
-			<input type="hidden" v-bind:name="name" v-bind:value="item ? item.id : ''" />
-			<div v-if="item">
+			<input type="hidden" v-bind:name="name" v-bind:value="obj ? obj.id : ''" />
+			<div v-if="obj">
 				<div class="col-sm-4">
-					<img v-bind:src="item ? item.thumbnail : 'http://placehold.it/150x150'" />
+					<img v-bind:src="obj ? obj.thumbnail : 'http://placehold.it/150x150'" />
 				</div>
 				<div class="col-sm-8">
 					<p>
-						{{ item ? item.created_at : '-' }}<br />
-						{{ item ? item.sizeFormatted : '-' }}<br />
-						{{ item ? item.type : '-' }}
+						{{ obj ? obj.created_at : '-' }}<br />
+						{{ obj ? obj.sizeFormatted : '-' }}<br />
+						{{ obj ? obj.type : '-' }}
 					</p>
 
-					<button class="btn btn-primary" v-on:click.prevent="showBrowser()">{{ item ? 'wijzig' : 'voeg toe' }}</button>
-					<a v-if="item" v-bind:href="item.url" target="_blank" class="btn btn-default">Bekijk</a>
-					<button v-if="item" class="btn btn-danger" v-on:click.prevent="item=null">Verwijder</button>
+					<button class="btn btn-primary" v-on:click.prevent="showBrowser()">{{ obj ? 'wijzig' : 'voeg toe' }}</button>
+					<a v-if="obj" v-bind:href="obj.url" target="_blank" class="btn btn-default">Bekijk</a>
+					<button v-if="obj" class="btn btn-danger" v-on:click.prevent="obj=null">Verwijder</button>
 
 				</div>
 			</div>
@@ -25,11 +27,24 @@
 			</div>
 		</div>
 	</div>
-	<media-browser :name="name" :selected.sync="item" :multiple="false" :controller="controller"></media-browser>
+	<media-browser :name="name" :selected="obj" :multiple="false" :controller="controller"></media-browser>
+</div>
 </template>
 
 <script>
     export default {
+
+		data()
+		{
+			return {obj:null}
+		},
+
+		mounted()
+		{
+			this.obj = this.item;
+
+			VueHub.$on('update-selected-media', this.updateSelected);
+		},
 
 		props : {
 			controller: {
@@ -47,9 +62,14 @@
 
 		methods: {
 
+			updateSelected(item)
+			{
+				this.obj = item;
+			},
+
 			showBrowser: function()
 			{
-				this.$broadcast('show-browser', true);
+				VueHub.$emit('show-browser', true);
  			}
 		}
     }

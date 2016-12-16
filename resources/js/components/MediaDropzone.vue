@@ -1,6 +1,6 @@
 <template>
 
-    <div v-el:dropzone>
+    <div>
         <slot name="dropzone-container">
 			<div class="col-xs-12">
 				<div class="progress" v-if="progress">
@@ -61,7 +61,7 @@ export default {
             return this.multiple ? true : false;
         }
     },
-    ready() {
+    mounted() {
         Dropzone.autoDiscover = false;
         let params = {
             url: this.path,
@@ -74,14 +74,14 @@ export default {
         let dz = new Dropzone(document.querySelector('#media-browser-'+this.name), params);
 
         dz.on("sending", (file, xhr, formData) => {
-            this.$dispatch('file-sending', file);
+            this.$emit('file-sending', file);
 
 			formData.append('_token', Laravel.csrfToken);
         });
 
         dz.on("addedfile", (file) => {
 			this.progress = true;
-            this.$dispatch('file-added', file);
+            this.$emit('file-added', file);
         });
 
 		dz.on("totaluploadprogress", (uploadProgress,totalBytes,totalBytesSent) => {
@@ -91,7 +91,7 @@ export default {
 
 
         dz.on("success", (file, response) => {
-            this.$dispatch('file-upload-success', response);
+            this.$emit('file-upload-success', response);
 
             if (typeof response === 'string') {
                 response = JSON.parse(response);
@@ -103,7 +103,7 @@ export default {
         dz.on("error", (file, errorMessage, xhr) => {
 			this.progress = 0;
 
-            this.$dispatch('file-upload-error', {
+            this.$emit('file-upload-error', {
                 file: file,
                 response: response,
                 xhr: xhr
@@ -111,7 +111,7 @@ export default {
         });
 
         dz.on("queuecomplete", (file) => {
-            this.$dispatch('file-upload-queue-completed', file);
+            this.$emit('file-upload-queue-completed', file);
 
         });
     }

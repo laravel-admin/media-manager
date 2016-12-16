@@ -1,5 +1,5 @@
 <template>
-	<div id="media-browser-{{ name }}" class="modal fade media-browser" v-bind:class="{'in':show, 'show':show}" tabindex="-1" role="dialog" style="overflow-y:inherit; max-height:inherit;">
+	<div :id="'media-browser-'+name" class="modal fade media-browser" v-bind:class="{'in':show, 'show':show}" tabindex="-1" role="dialog" style="overflow-y:inherit; max-height:inherit;">
 	  <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -7,7 +7,7 @@
 				<h4 class="modal-title">Bestanden</h4>
 			</div>
 			<div class="col-xs-6">
-				  <input type="text" class="form-control" v-on:keyup="reloadItems | debounce 500" placeholder="Search for..." v-model="keyword">
+				  <input type="text" class="form-control" v-on:keyup="reloadItems" placeholder="Search for..." v-model="keyword">
 			</div>
 	      </div>
 
@@ -46,6 +46,11 @@
 			return {show:false, search:null, keyword:'', showmore:false, items:[], next_page:1};
 		},
 
+		mounted()
+		{
+			VueHub.$on('show-browser', this.showBrowser);
+		},
+
 		props : {
 			controller: {
 					default: '/admin/media/ajax'
@@ -74,22 +79,25 @@
 		},
 
 		events: {
-		    'show-browser': function (bool) {
-				if (bool) this.reloadItems();
 
-		      	this.show = bool;
-		    }
 		},
 
 		methods: {
 
-			reloadItems: function()
+			showBrowser(bool)
+			{
+				if (bool) this.reloadItems();
+
+		      	this.show = bool;
+		    },
+
+			reloadItems: _.debounce(function()
 			{
 				this.items = [];
 				this.next_page = 1;
 
 				this.loadItems();
-			},
+			}, 500),
 
 			loadItems: function()
 			{
@@ -136,7 +144,7 @@
 
 				if (selection = this.selectedItems())
 				{
-					this.selected = selection.shift();
+					VueHub.$emit('update-selected-media', selection.shift());
 					this.show = false;
 				}
 			}

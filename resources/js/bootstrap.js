@@ -2,6 +2,11 @@ Vue.component('media-item', require('./components/MediaItem.vue'));
 Vue.component('media-browser', require('./components/MediaBrowser.vue'));
 Vue.component('media-dropzone', require('./components/MediaDropzone.vue'));
 
+if (typeof window.VueHub === 'undefined')
+{
+	window.VueHub = new Vue();
+}
+
 (function() {
 
 	$(function()
@@ -23,7 +28,7 @@ Vue.component('media-dropzone', require('./components/MediaDropzone.vue'));
 	   {
 		   window.location = $(this).parents('tr').data('link');
 	   });
-		
+
 	});
 
 })($);
