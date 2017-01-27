@@ -4,7 +4,7 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 		  	<div class="col-xs-6">
-				<h4 class="modal-title">Bestanden</h4>
+				<h4 class="modal-title">Media</h4>
 			</div>
 			<div class="col-xs-6">
 				  <input type="text" class="form-control" v-on:keyup="reloadItems" placeholder="Search for..." v-model="keyword">
@@ -18,21 +18,21 @@
 	      	<div class="row">
 		  		<span v-if="items.length">
 					<div class="col-xs-4 col-md-2" v-for="item in items">
-						<a href="#" class="thumbnail" v-bind:class="{'active':item.selected}" v-on:click.prevent="selectItem(item)" v-bind:title="item.name">
+						<a href="#" class="thumbnail" v-bind:class="{'active':item.selected}" v-on:click.prevent="selectItem(item)" v-bind:title="item.name"  data-toggle="tooltip" data-placement="bottom">
 							<img v-bind:src="item.thumbnail" v-bind:alt="item.name">
 						</a>
 					</div>
 				</span>
-				<p class="text-center" v-else>Geen resultaten gevonden</p>
+				<p class="text-center" v-else>No results found</p>
 	      	</div>
 	      	<div class="row text-center">
-	      		<button class="btn btn-primary more" v-show="showmore" v-on:click.prevent="loadItems">Laad meer</button>
+	      		<button class="btn btn-primary more" v-show="showmore" v-on:click.prevent="loadItems">Show more</button>
 	      	</div>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary media-browser-upload">Upload</button>
-	        <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">Sluit</button>
-	        <button type="button" class="btn btn-primary confirm" :disabled="!hasSelection" v-on:click.prevent="confirmSelection">Selecteer</button>
+	        <button type="button" class="btn btn-primary media-browser-upload">upload</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">close</button>
+	        <button type="button" class="btn btn-primary confirm" :disabled="!hasSelection" v-on:click.prevent="confirmSelection">confirm</button>
 	      </div>
 	    </div>
 	  </div>
@@ -90,7 +90,7 @@
 
 			loadItems: function()
 			{
-				this.$http({url:this.controller,method:'get', params:{s:this.keyword, page:this.next_page}}).then(function(response)
+				axios({url:this.controller,method:'get', params:{s:this.keyword, page:this.next_page}}).then(function(response)
 				{
 					this.search = response.data;
 
@@ -101,7 +101,12 @@
 					{
 						this.items.push(Object.assign({}, this.search.data[i], { selected: false}));
 					}
-				});
+
+					this.$nextTick(() => {
+            			$('[data-toggle="tooltip"]').tooltip()
+        			});
+
+				}.bind(this));
 			},
 
 			selectItem: function(item)

@@ -7,7 +7,9 @@
 			<input type="hidden" v-bind:name="name" v-bind:value="obj ? obj.id : ''" />
 			<div v-if="obj">
 				<div class="col-sm-4">
-					<img v-bind:src="obj ? obj.thumbnail : 'http://placehold.it/150x150'" />
+					<a :href="obj.url ? obj.url : null" target="_blank">
+						<img v-bind:src="obj ? obj.thumbnail : 'http://placehold.it/150x150'" />
+					</a>
 				</div>
 				<div class="col-sm-8">
 					<p>
@@ -16,14 +18,14 @@
 						{{ obj ? obj.type : '-' }}
 					</p>
 
-					<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">{{ obj ? 'wijzig' : 'voeg toe' }}</button>
-					<a v-if="obj" v-bind:href="obj.url" target="_blank" class="btn btn-default">Bekijk</a>
-					<button v-if="obj" class="btn btn-danger" v-on:click.prevent="obj=null">Verwijder</button>
+					<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">{{ obj ? 'edit' : 'add' }}</button>
+					<a v-if="obj" v-bind:href="obj.url" target="_blank" class="btn btn-default">view</a>
+					<button v-if="obj" class="btn btn-danger" v-on:click.prevent="obj=null">delete</button>
 
 				</div>
 			</div>
 			<div v-else>
-				<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">voeg afbeelding toe</button>
+				<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">add media</button>
 			</div>
 		</div>
 	</div>
