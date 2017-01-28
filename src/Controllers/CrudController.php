@@ -6,15 +6,11 @@ use Illuminate\Http\Request;
 
 use LaravelAdmin\MediaManager\Models\Media;
 use LaravelAdmin\MediaManager\Upload;
-use App\Http\Controllers\Controller;
 
-use LaravelAdmin\Crud\Traits\CrudController as CrudTrait;
+use LaravelAdmin\Crud\Controllers\ResourceController;
 
-class CrudController extends Controller
+class CrudController extends ResourceController
 {
-	use CrudTrait {
-        update as traitUpdate;
-    }
 
 	protected $model = Media::class;
 
@@ -44,9 +40,9 @@ class CrudController extends Controller
 	}
 
 
-	public function update(Request $request, $id)
+	public function update(Request $request, $id, $redirect=true)
 	{
-		$model = $this->traitUpdate($request, $id, false);
+		$model = parent::update($request, $id, false);
 
 		if ($request->file('replace'))
 		{
