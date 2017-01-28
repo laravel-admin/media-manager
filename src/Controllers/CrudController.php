@@ -68,10 +68,10 @@ class CrudController extends Controller
 	public function getFieldsForList()
 	{
 		return [
-			['label'=>'Name', 'formatter'=>'name'],
-			['label'=>'Size', 'formatter'=>'sizeFormatted'],
-			['label'=>'Type', 'formatter'=>'type'],
-			['label'=>'Created', 'formatter'=>function($model)
+			['id'=>'name', 'label'=>'Name'],
+			['id'=>'size', 'label'=>'Size', 'formatter'=>'sizeFormatted'],
+			['id'=>'type', 'label'=>'Type'],
+			['id'=>'created_at', 'label'=>'Created', 'formatter'=>function($model)
 			{
 				return $model->created_at->format('Y-m-d');
 			}],
@@ -84,15 +84,13 @@ class CrudController extends Controller
 			[
 				'id'		=>	'name',
 				'label'		=>	'Name',
-				'driver'	=>	'text',
-				'formatter'	=>	'name',
+				'field'		=>	'text',
 			],
 
 			[
 				'id'		=>	'replace',
 				'label'		=>	'Replace source file',
-				'driver'	=>	'file',
-				'formatter'	=>	null,
+				'field'		=>	'file',
 			]
 		];
 	}
@@ -105,7 +103,6 @@ class CrudController extends Controller
 				'id'		=>	'file',
 				'label'		=>	'Upload file',
 				'driver'	=>	'file',
-				'formatter'	=>	null,
 			]
 		];
 	}

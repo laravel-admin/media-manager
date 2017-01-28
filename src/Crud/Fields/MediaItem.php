@@ -2,12 +2,12 @@
 
 namespace LaravelAdmin\MediaManager\Crud\Fields;
 
-use LaravelAdmin\Crud\Fields\Driver;
+use LaravelAdmin\Crud\Fields\Field;
 
 /**
  * Driver for a normal text field
  */
-class MediaItem extends Driver
+class MediaItem extends Field
 {
 	protected $view_path = "media-manager::backend.fields.media-item";
 
