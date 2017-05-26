@@ -7,10 +7,11 @@ Route::group(['middleware'=>'web'], function () {
     });
 
     if (class_exists(LaravelAdmin\Base\BaseServiceProvider::class)) {
-        Route::group(config('admin.routeGroup') + ['middleware'=>config('admin.routeMiddleware')], function () {
-            Route::resource('media/ajax', LaravelAdmin\MediaManager\Controllers\AjaxController::class, ['only'=>['index','store'], 'names' => [
+        Route::group(config('admin.route_group') + ['middleware'=>config('admin.route_middleware')], function () {
+            Route::resource('media/ajax', LaravelAdmin\MediaManager\Controllers\AjaxController::class, ['only'=>['index','store','show'], 'names' => [
                 'index' => config('media.routes.ajax.name').'index',
                 'store' => config('media.routes.ajax.name').'store',
+                'show' => config('media.routes.ajax.name').'show',
             ]]);
 
             Route::resource('media', LaravelAdmin\MediaManager\Controllers\CrudController::class);

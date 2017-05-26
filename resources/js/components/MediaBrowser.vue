@@ -31,7 +31,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary media-browser-upload">upload</button>
-	        <button type="button" class="btn btn-default" data-dismiss="modal" @click="$emit('close')">close</button>
+	        <button type="button" class="btn btn-default" @click="$emit('close')">close</button>
 	        <button type="button" class="btn btn-primary confirm" :disabled="!hasSelection" v-on:click.prevent="confirmSelection">confirm</button>
 	      </div>
 	    </div>

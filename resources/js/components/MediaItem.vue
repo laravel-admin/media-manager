@@ -20,7 +20,7 @@
 
 					<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">{{ obj ? 'edit' : 'add' }}</button>
 					<a v-if="obj" v-bind:href="obj.url" target="_blank" class="btn btn-default">view</a>
-					<button v-if="obj" class="btn btn-danger" v-on:click.prevent="obj=null">delete</button>
+					<button v-if="obj" class="btn btn-danger" v-on:click.prevent="deleteItem">delete</button>
 
 				</div>
 			</div>
@@ -66,7 +66,13 @@
 			updateSelected(item)
 			{
 				this.obj = item;
-			}
+                this.$emit('update-media-item', this.obj);
+			},
+
+            deleteItem() {
+                this.obj = null;
+                this.$emit('update-media-item', null);
+            }
 		}
     }
 </script>
