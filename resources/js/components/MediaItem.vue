@@ -8,7 +8,7 @@
 			<div v-if="obj">
 				<div class="col-sm-4">
 					<a :href="obj.url ? obj.url : null" target="_blank">
-						<img v-bind:src="obj ? obj.thumbnail : 'http://placehold.it/150x150'" />
+						<img v-bind:src="obj && obj.type.substr(0,5) == 'image' ? obj.thumbnail : 'http://placehold.it/150x150?text='+obj.name" />
 					</a>
 				</div>
 				<div class="col-sm-8">
