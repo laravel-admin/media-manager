@@ -61,6 +61,12 @@
             }
 		},
 
+		watch : {
+		   item : function (value) {
+			 this.updateSelected(value);
+		   }
+	   },
+
 		methods: {
 
 			updateSelected(item)
