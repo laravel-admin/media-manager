@@ -25,7 +25,7 @@ class SaveToStorage implements ImagestyleAction
 			$current_styles = $this->style->model->styles ?: [];
 			$current_styles[$this->style->style['id']] = strtotime('now');
 			$this->style->model->styles = $current_styles;
-			$this->style->model->save();
+            $this->style->model->save(['timestamps' => false]);
 
 		}
 	}
