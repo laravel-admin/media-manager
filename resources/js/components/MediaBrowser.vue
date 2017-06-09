@@ -16,13 +16,33 @@
 				<media-dropzone :name="name" :files.sync="items" clickable=".media-browser-upload" :path="controller"></media-dropzone>
 			</div>
 	      	<div class="row">
-		  		<span v-if="items.length">
-					<div class="col-xs-4 col-md-2" v-for="item in items">
+		  		<template v-if="items.length">
+					<table class="table table-hover" v-if="tableView">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Type</th>
+								<th>Size</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="item in items">
+								<td>
+									<a href="#" v-bind:class="{'active':item.selected}" v-on:click.prevent="selectItem(item)" v-bind:title="item.name"  data-toggle="tooltip">
+										{{ item.name }}
+									</a>
+								</td>
+								<td v-text="item.type"></td>
+								<td v-text="item.sizeFormatted"></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="col-xs-4 col-md-2" v-for="item in items" v-if="!tableView">
 						<a href="#" class="thumbnail" v-bind:class="{'active':item.selected}" v-on:click.prevent="selectItem(item)" v-bind:title="item.name"  data-toggle="tooltip" data-placement="bottom">
-							<img v-bind:src="item.thumbnail" v-bind:alt="item.name">
+							<img v-bind:src="item.type.substr(0,5) == 'image' ? item.thumbnail : 'http://placehold.it/150x150?text='+item.name" v-bind:alt="item.name">
 						</a>
 					</div>
-				</span>
+				</template>
 				<p class="text-center" v-else>No results found</p>
 	      	</div>
 	      	<div class="row text-center">
@@ -30,6 +50,7 @@
 	      	</div>
 	      </div>
 	      <div class="modal-footer">
+	        <button type="button" class="btn btn-info" v-text="tableView ? 'Tiles' : 'Table'" @click.prevent="tableView = !tableView"></button>
 	        <button type="button" class="btn btn-primary media-browser-upload">upload</button>
 	        <button type="button" class="btn btn-default" @click="$emit('close')">close</button>
 	        <button type="button" class="btn btn-primary confirm" :disabled="!hasSelection" v-on:click.prevent="confirmSelection">confirm</button>
@@ -43,7 +64,7 @@
     export default {
 
 		data() {
-			return {search:null, keyword:'', showmore:false, items:[], next_page:1};
+			return {tableView:true, search:null, keyword:'', showmore:false, items:[], next_page:1};
 		},
 
 		mounted()
