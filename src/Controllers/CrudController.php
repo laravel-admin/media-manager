@@ -16,7 +16,8 @@ class CrudController extends ResourceController
     protected $singular_name = 'media';
     protected $plural_name = 'media';
 
-    protected $list_order_by = 'name';
+    protected $list_order_by = 'created_at';
+    protected $list_search_on = 'name';
 
     public function store(Request $request)
     {
@@ -40,11 +41,14 @@ class CrudController extends ResourceController
 
     public function update(Request $request, $id, $redirect=true)
     {
-        $model = parent::update($request, $id, false);
+        $model = parent::getModelInstance($id); //parent::update($request, $id, false);
 
         if ($request->file('replace')) {
-            Upload::update($media)->handle($request, 'replace');
+            Upload::update($model)->handle($request, 'replace');
         }
+
+        $payload = $this->getPayloadOnUpdate($request->all());
+        $model->update($payload);
 
         $this->flash('The changes has been saved');
 
@@ -65,8 +69,19 @@ class CrudController extends ResourceController
             ['id'=>'size', 'label'=>'Size', 'formatter'=>'sizeFormatted'],
             ['id'=>'type', 'label'=>'Type'],
             ['id'=>'created_at', 'label'=>'Created', 'formatter'=>function ($model) {
-                return $model->created_at->format('Y-m-d');
+                return $model->created_at->format('d-m-Y');
             }],
+        ];
+    }
+
+    protected function getFieldsForCreate()
+    {
+        return [
+            [
+                'id'        =>    'file',
+                'label'     =>    'Upload file',
+                'field'     =>    'file',
+            ],
         ];
     }
 
@@ -75,26 +90,14 @@ class CrudController extends ResourceController
         return [
             [
                 'id'        =>    'name',
-                'label'        =>    'Name',
-                'field'        =>    'text',
+                'label'     =>    'Name',
+                'field'     =>    'text',
             ],
 
             [
                 'id'        =>    'replace',
-                'label'        =>    'Replace source file',
-                'field'        =>    'file',
-            ]
-        ];
-    }
-
-
-    protected function getFieldsForCreate()
-    {
-        return [
-            [
-                'id'        =>    'file',
-                'label'        =>    'Upload file',
-                'driver'    =>    'file',
+                'label'     =>    'Replace source file',
+                'field'     =>    'file',
             ]
         ];
     }
