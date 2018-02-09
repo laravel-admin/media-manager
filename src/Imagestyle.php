@@ -37,7 +37,11 @@ class Imagestyle
 
 	public function handle()
 	{
-		$data = Storage::disk($this->model->storage)->get($this->model->source);
+		try {
+			$data = Storage::disk($this->model->storage)->get($this->model->source);
+		} catch (\Illuminate\Contracts\Filesystem\FileNotFoundException $e) {
+			return null;
+		}
 		$this->img = ImageMaker::make($data);
 
 		foreach ($this->style['actions'] as $class=>$options)
