@@ -3,13 +3,11 @@
 namespace LaravelAdmin\MediaManager\Controllers;
 
 use Illuminate\Http\Request;
-
 use LaravelAdmin\MediaManager\Models\Media;
 use LaravelAdmin\MediaManager\Upload;
+use LaravelAdmin\Crud\Controllers\ResourceController as BaseController;
 
-use LaravelAdmin\Crud\Controllers\ResourceController;
-
-class CrudController extends ResourceController
+class CrudController extends BaseController
 {
     protected $model = Media::class;
 
@@ -28,19 +26,22 @@ class CrudController extends ResourceController
             return back();
         }
 
+        $this->validate($request, $this->getValidationRulesOnStore(), $this->getValidationMessagesOnStore());
+
         //	Upload files
         if ($file = Upload::handle($request, 'file')) {
-            $this->flash("The file is uploaded");
+            $this->flash('The file is uploaded');
 
-            return $this->redirect("index");
+            return $this->redirect('index');
         }
 
         return back();
     }
 
-
-    public function update(Request $request, $id, $redirect=true)
+    public function update(Request $request, $id, $redirect = true)
     {
+        $this->validate($request, $this->getValidationRulesOnUpdate(), $this->getValidationMessagesOnUpdate());
+
         $model = parent::getModelInstance($id); //parent::update($request, $id, false);
 
         if ($request->file('replace')) {
@@ -55,20 +56,13 @@ class CrudController extends ResourceController
         return back();
     }
 
-    protected function getValidationRulesOnUpdate()
-    {
-        return [
-            'name' => 'required',
-        ];
-    }
-
     public function getFieldsForList()
     {
         return [
-            ['id'=>'name', 'label'=>'Name'],
-            ['id'=>'size', 'label'=>'Size', 'formatter'=>'sizeFormatted'],
-            ['id'=>'type', 'label'=>'Type'],
-            ['id'=>'created_at', 'label'=>'Created', 'formatter'=>function ($model) {
+            ['id' => 'name', 'label' => 'Name'],
+            ['id' => 'size', 'label' => 'Size', 'formatter' => 'sizeFormatted'],
+            ['id' => 'type', 'label' => 'Type'],
+            ['id' => 'created_at', 'label' => 'Created', 'formatter' => function ($model) {
                 return $model->created_at->format('d-m-Y');
             }],
         ];
@@ -78,9 +72,9 @@ class CrudController extends ResourceController
     {
         return [
             [
-                'id'        =>    'file',
-                'label'     =>    'Upload file',
-                'field'     =>    'file',
+                'id' => 'file',
+                'label' => 'Upload file',
+                'field' => 'file',
             ],
         ];
     }
@@ -89,16 +83,31 @@ class CrudController extends ResourceController
     {
         return [
             [
-                'id'        =>    'name',
-                'label'     =>    'Name',
-                'field'     =>    'text',
+                'id' => 'name',
+                'label' => 'Name',
+                'field' => 'text',
             ],
 
             [
-                'id'        =>    'replace',
-                'label'     =>    'Replace source file',
-                'field'     =>    'file',
+                'id' => 'replace',
+                'label' => 'Replace source file',
+                'field' => 'file',
             ]
+        ];
+    }
+
+    protected function getValidationRulesOnStore()
+    {
+        return [
+            'file' => 'required|max:' . ((!config('media.upload.max_filesize')) ? 4000 : config('media.upload.max_filesize'))
+        ];
+    }
+
+    protected function getValidationRulesOnUpdate()
+    {
+        return [
+            'name' => 'required',
+            'replace' => 'max:' . ((!config('media.upload.max_filesize')) ? 4000 : config('media.upload.max_filesize'))
         ];
     }
 }
