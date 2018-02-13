@@ -24,10 +24,10 @@ class AjaxController extends Controller
         $builder = Media::orderBy('created_at', 'desc');
 
         if ($request->has('s')) {
-            $builder->where('name', 'like', '%'.$request->s.'%');
+            $builder->where('name', 'like', '%' . $request->s . '%');
         }
 
-        return $builder->paginate(8);
+        return $builder->paginate(12);
     }
 
     /**
@@ -35,9 +35,10 @@ class AjaxController extends Controller
      * @param  Request $request
      * @return Response | null
      */
-
     public function store(Request $request)
     {
+        $this->validate($request, ['file' => 'required|max:' . ((!config('media.upload.max_filesize')) ? 4000 : config('media.upload.max_filesize'))]);
+
         if ($media = Upload::handle($request, 'file')) {
             return $media;
         }
