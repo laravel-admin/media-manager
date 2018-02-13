@@ -16,19 +16,18 @@
 
 <script>
 
-import Dropzone from 'dropzone';
+    import Dropzone from 'dropzone';
 
-export default {
+    export default {
 
+        data() {
+            return {progress:0};
+        },
 
-	data() {
-		return {progress:0};
-	},
-
-    props : {
-			name: {
-				default: 'media_id'
-			},
+        props : {
+            name: {
+                default: 'media_id'
+            },
             multiple : {
                 default : false
             },
@@ -54,67 +53,65 @@ export default {
             createImageThumbnails : {
                 default : false
             }
-    },
+        },
 
-    computed: {
-        multipleUploads() {
-            return this.multiple ? true : false;
-        }
-    },
-    mounted() {
-        Dropzone.autoDiscover = false;
-        let params = {
-            url: this.path,
-            paramName: this.file,
-            createImageThumbnails: this.createImageThumbnails,
-            clickable: '#media-browser-'+this.name+' '+this.clickable,
-            previewTemplate: this.previewTemplate
-        };
-        // let dz = new Dropzone(this.target, params);
-        let dz = new Dropzone(document.querySelector('#media-browser-'+this.name), params);
-
-        dz.on("sending", (file, xhr, formData) => {
-            this.$emit('file-sending', file);
-
-			formData.append('_token', Laravel.csrfToken);
-        });
-
-        dz.on("addedfile", (file) => {
-			this.progress = true;
-            this.$emit('file-added', file);
-        });
-
-		dz.on("totaluploadprogress", (uploadProgress,totalBytes,totalBytesSent) => {
-			this.progress = uploadProgress;
-		});
-
-
-
-        dz.on("success", (file, response) => {
-            this.$emit('file-upload-success', response);
-
-            if (typeof response === 'string') {
-                response = JSON.parse(response);
+        computed: {
+            multipleUploads() {
+                return this.multiple ? true : false;
             }
-			this.progress = 0;
-            this.files.unshift(Object.assign({}, response, { selected: false}));
-        });
+        },
 
-        dz.on("error", (file, errorMessage, xhr) => {
-			this.progress = 0;
+        mounted() {
+            Dropzone.autoDiscover = false;
+            let params = {
+                url: this.path,
+                paramName: this.file,
+                createImageThumbnails: this.createImageThumbnails,
+                clickable: '#media-browser-'+this.name+' '+this.clickable,
+                previewTemplate: this.previewTemplate
+            };
 
-            this.$emit('file-upload-error', {
-                file: file,
-                response: response,
-                xhr: xhr
+            let dz = new Dropzone(document.querySelector('#media-browser-'+this.name), params);
+
+            dz.on("sending", (file, xhr, formData) => {
+                this.$emit('file-sending', file);
+
+                formData.append('_token', Laravel.csrfToken);
             });
-        });
 
-        dz.on("queuecomplete", (file) => {
-            this.$emit('file-upload-queue-completed', file);
+            dz.on("addedfile", (file) => {
+                this.progress = true;
+                this.$emit('file-added', file);
+            });
 
-        });
+            dz.on("totaluploadprogress", (uploadProgress,totalBytes,totalBytesSent) => {
+                this.progress = uploadProgress;
+            });
+
+            dz.on("success", (file, response) => {
+                this.$emit('file-upload-success', response);
+
+                if (typeof response === 'string') {
+                    response = JSON.parse(response);
+                }
+                this.progress = 0;
+                this.files.unshift(Object.assign({}, response, { selected: false}));
+            });
+
+            dz.on("error", (file, errorMessage, xhr) => {
+                this.progress = 0;
+
+                this.$emit('file-upload-error', {
+                    file: file,
+                    errorMessage: errorMessage,
+                    xhr: xhr
+                });
+            });
+
+            dz.on("queuecomplete", (file) => {
+                this.$emit('file-upload-queue-completed', file);
+            });
+        }
     }
-}
 
 </script>
