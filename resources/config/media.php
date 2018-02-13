@@ -12,6 +12,8 @@ return [
 
 		'default_driver'	=>	'fileupload',
 
+		'max_filesize' => 6000,
+
 		'drivers'			=>	[
 				'fileupload' 	=>	LaravelAdmin\MediaManager\Drivers\Uploads\FileUpload::class,
 				'url'			=>	LaravelAdmin\MediaManager\Drivers\Uploads\Url::class,
