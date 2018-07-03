@@ -20,7 +20,7 @@
 					<div v-if="showMessage" v-html="errorMessage" class="alert alert-danger"></div>
 
 					<div class="row">
-						<media-dropzone :name="name" :files.sync="items" clickable=".media-browser-upload" :path="controller" @file-upload-error="showUploadError"></media-dropzone>
+						<media-dropzone :name="name" :filetypes="filetypes" :files.sync="items" clickable=".media-browser-upload" :path="controller" @file-upload-error="showUploadError"></media-dropzone>
 					</div>
 	      	
 					<div class="row">
@@ -62,9 +62,9 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-info" v-text="tableView ? 'Tiles' : 'Table'" @click.prevent="tableView = !tableView"></button>
-					<button type="button" class="btn btn-primary media-browser-upload">upload</button>
-					<button type="button" class="btn btn-default" @click="$emit('close')">close</button>
-					<button type="button" class="btn btn-primary confirm" :disabled="!hasSelection" v-on:click.prevent="confirmSelection">confirm</button>
+					<button type="button" class="btn btn-primary media-browser-upload">Upload</button>
+					<button type="button" class="btn btn-default" @click="$emit('close')">Close</button>
+					<button type="button" class="btn btn-primary confirm" :disabled="!hasSelection" v-on:click.prevent="confirmSelection">Confirm</button>
 				</div>
 				
 			</div>
@@ -93,6 +93,10 @@
 			name: {
 				default: 'media_id'
 			},
+
+			filetypes : {
+                default : null
+            },
 
             selected : {
                 default : null
@@ -178,8 +182,12 @@
 			},
 
 			showUploadError: function(args){
+				if(args.errorMessage.errors!==undefined){
+					this.errorMessage = args.errorMessage.errors.file[0];
+				}else{
+					this.errorMessage = args.errorMessage;
+				}
 				this.showMessage = true;
-				this.errorMessage = args.errorMessage.message;
 			}
 		}
     }

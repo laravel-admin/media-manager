@@ -15,16 +15,16 @@
 						{{ obj ? obj.sizeFormatted : '-' }}<br />
 						{{ obj ? obj.type : '-' }}
 					</p>
-					<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">{{ obj ? 'edit' : 'add' }}</button>
-					<a v-if="obj" v-bind:href="obj.url" target="_blank" class="btn btn-default">view</a>
-					<button v-if="obj" class="btn btn-danger" v-on:click.prevent="deleteItem">delete</button>
+					<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">{{ obj ? 'Edit' : 'Add' }}</button>
+					<a v-if="obj" v-bind:href="obj.url" target="_blank" class="btn btn-default">View</a>
+					<button v-if="obj" class="btn btn-danger" v-on:click.prevent="deleteItem">Delete</button>
 				</div>
 			</div>
 			<div v-else>
-				<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">add media</button>
+				<button class="btn btn-primary" v-on:click.prevent="showBrowser=true">Add media</button>
 			</div>
 		</div>
-		<media-browser v-if="showBrowser" :name="name" :selected="obj" :multiple="false" :controller="controller" @update="updateSelected" @close="showBrowser=false"></media-browser>
+		<media-browser v-if="showBrowser" :name="name" :filetypes="filetypes" :selected="obj" :multiple="false" :controller="controller" @update="updateSelected" @close="showBrowser=false"></media-browser>
 	</div>
 </template>
 
@@ -52,6 +52,10 @@
 			},
 
 			item : {
+				default : null
+			},
+
+			filetypes : {
 				default : null
 			}
 		},

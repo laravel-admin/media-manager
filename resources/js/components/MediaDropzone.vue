@@ -32,6 +32,10 @@
                 default : false
             },
 
+            filetypes : {
+                default : null
+            },
+
             path : {
                 default : '/admin/upload'
             },
@@ -70,6 +74,10 @@
                 clickable: '#media-browser-'+this.name+' '+this.clickable,
                 previewTemplate: this.previewTemplate
             };
+
+            if(this.filetypes!=='null'){
+                params.acceptedFiles = this.filetypes;
+            }
 
             let dz = new Dropzone(document.querySelector('#media-browser-'+this.name), params);
 
