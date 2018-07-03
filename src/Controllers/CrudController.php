@@ -28,11 +28,16 @@ class CrudController extends BaseController
 
         $this->validate($request, $this->getValidationRulesOnStore(), $this->getValidationMessagesOnStore());
 
-        //	Upload files
-        if ($file = Upload::handle($request, 'file')) {
-            $this->flash('The file is uploaded');
+        try {
+            //	Upload files
+            if ($file = Upload::handle($request, 'file')) {
+                $this->flash('The file is uploaded');
 
-            return $this->redirect('index');
+                return $this->redirect('index');
+            }
+        } catch (\Exception $ex) {
+            // dd($ex);
+            $this->flash($ex->getMessage(), 'danger');
         }
 
         return back();
@@ -98,16 +103,26 @@ class CrudController extends BaseController
 
     protected function getValidationRulesOnStore()
     {
+        $check = 'required|max:' . ((!config('media.upload.max_filesize')) ? 4000 : config('media.upload.max_filesize'));
+        if (config('media.upload.allowed_filetypes')) {
+            $check = $check . '|mimes:' . config('media.upload.allowed_filetypes');
+        }
+
         return [
-            'file' => 'required|max:' . ((!config('media.upload.max_filesize')) ? 4000 : config('media.upload.max_filesize'))
+            'file' => $check
         ];
     }
 
     protected function getValidationRulesOnUpdate()
     {
+        $check = 'max:' . ((!config('media.upload.max_filesize')) ? 4000 : config('media.upload.max_filesize'));
+        if (config('media.upload.allowed_filetypes')) {
+            $check = $check . '|mimes:' . config('media.upload.allowed_filetypes');
+        }
+
         return [
             'name' => 'required',
-            'replace' => 'max:' . ((!config('media.upload.max_filesize')) ? 4000 : config('media.upload.max_filesize'))
+            'replace' => $check
         ];
     }
 }

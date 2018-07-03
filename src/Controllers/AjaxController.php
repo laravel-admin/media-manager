@@ -37,7 +37,14 @@ class AjaxController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['file' => 'required|max:' . ((!config('media.upload.max_filesize')) ? 4000 : config('media.upload.max_filesize'))]);
+        $check = 'required|max:' . ((!config('media.upload.max_filesize')) ? 4000 : config('media.upload.max_filesize'));
+        if (config('media.upload.allowed_filetypes')) {
+            $check = $check . '|mimes:' . config('media.upload.allowed_filetypes');
+        }
+
+        $this->validate($request, [
+            'file' => $check
+        ]);
 
         if ($media = Upload::handle($request, 'file')) {
             return $media;
