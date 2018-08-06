@@ -128,7 +128,7 @@
 
 			loadItems: function()
 			{
-				axios({url:this.controller,method:'get', params:{s:this.keyword, page:this.next_page}}).then(function(response)
+				axios({url:this.controller,method:'get', params:{s:this.keyword, page:this.next_page, type:this.filetypes}}).then(function(response)
 				{
 					this.search = response.data;
 

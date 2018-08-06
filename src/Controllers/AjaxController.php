@@ -23,6 +23,10 @@ class AjaxController extends Controller
     {
         $builder = Media::orderBy('created_at', 'desc');
 
+        if ($request->has('type')) {
+            $builder->where('name', 'like', '%' . explode('/', $request->type)[1]);
+        }
+
         if ($request->has('s')) {
             $builder->where('name', 'like', '%' . $request->s . '%');
         }
