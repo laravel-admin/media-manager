@@ -9,11 +9,6 @@ use LaravelAdmin\MediaManager\Upload;
 
 class AjaxController extends Controller
 {
-    public function __construct()
-    {
-        //$this->middleware(config('media.routes.ajax.middleware'));
-    }
-
     /**
      * List all media from the database, paginated by 8
      * @param  Request $request
