@@ -22,7 +22,7 @@ class AjaxController extends Controller
             $builder->where('name', 'like', '%' . explode('/', $request->type)[1]);
         }
 
-        if ($request->has('s')) {
+        if ($request->has('s') && !empty($request->s)) {
             $builder->where('name', 'like', '%' . $request->s . '%');
         }
 
