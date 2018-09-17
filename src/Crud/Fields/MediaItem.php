@@ -9,7 +9,7 @@ use LaravelAdmin\Crud\Fields\Field;
  */
 class MediaItem extends Field
 {
-	protected $view_path = "media-manager::backend.fields.media-item";
+    protected $view_path = "media-manager::backend.fields.media-item";
 
-	//	Inherits all methods from the parent driver class
+    //	Inherits all methods from the parent driver class
 }

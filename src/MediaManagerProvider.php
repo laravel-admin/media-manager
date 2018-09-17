@@ -13,21 +13,21 @@ class MediaManagerProvider extends ServiceProvider
      */
     public function boot()
     {
-		if (! $this->app->routesAreCached()) {
-			require __DIR__.'/routes.php';
-		}
-		
-		$this->loadMigrationsFrom(__DIR__.'/../resources/migrations');
+        if (! $this->app->routesAreCached()) {
+            require __DIR__.'/routes.php';
+        }
+        
+        $this->loadMigrationsFrom(__DIR__.'/../resources/migrations');
 
-		$this->loadViewsFrom(__DIR__.'/../resources/views', 'media-manager');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'media-manager');
 
-		$this->publishes([
-        	__DIR__.'/../resources/config/media.php' => config_path('media.php'),
-    	], 'config');
+        $this->publishes([
+            __DIR__.'/../resources/config/media.php' => config_path('media.php'),
+        ], 'config');
 
-		$this->publishes([
-	   		__DIR__.'/../resources/views' => resource_path('views/vendor/media-manager'),
-   		], 'views');
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/media-manager'),
+        ], 'views');
     }
 
     /**
@@ -37,8 +37,9 @@ class MediaManagerProvider extends ServiceProvider
      */
     public function register()
     {
-		$this->mergeConfigFrom(
-			__DIR__.'/../resources/config/media.php', 'media'
-		);
+        $this->mergeConfigFrom(
+            __DIR__.'/../resources/config/media.php',
+            'media'
+        );
     }
 }

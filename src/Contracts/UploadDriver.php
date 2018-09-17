@@ -6,5 +6,5 @@ use Illuminate\Http\Request;
 
 interface UploadDriver
 {
-	public function handle(Request $request, $reference);
+    public function handle(Request $request, $reference);
 }
