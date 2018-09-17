@@ -10,7 +10,7 @@ use LaravelAdmin\MediaManager\Upload;
 class AjaxController extends Controller
 {
     /**
-     * List all media from the database, paginated by 8
+     * List all media from the database, paginated
      * @param  Request $request
      * @return Response
      */
