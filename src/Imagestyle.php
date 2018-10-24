@@ -27,15 +27,19 @@ class Imagestyle
      */
     protected function getStyle($name)
     {
-        if (!config('media.imagestyles.'.$name)) {
-            throw new \BadMethodCallException('Imagestyle ('.$name.') not found');
+        if (!config('media.imagestyles.' . $name)) {
+            throw new \BadMethodCallException('Imagestyle (' . $name . ') not found');
         }
 
-        return config('media.imagestyles.'.$name);
+        return config('media.imagestyles.' . $name);
     }
 
     public function handle()
     {
+        if ($this->model->styles && !empty($this->model->styles[$this->style['id']]) && $img = Storage::disk($this->model->storage)->url($this->getPath())) {
+            return redirect($img);
+        }
+
         try {
             $data = Storage::disk($this->model->storage)->get($this->model->source);
         } catch (\Illuminate\Contracts\Filesystem\FileNotFoundException $e) {
@@ -43,7 +47,7 @@ class Imagestyle
         }
         $this->img = ImageMaker::make($data);
 
-        foreach ($this->style['actions'] as $class=>$options) {
+        foreach ($this->style['actions'] as $class => $options) {
             $action = new $class($this, $options);
 
             //	If the action has a return value, return this to the controller
@@ -61,7 +65,7 @@ class Imagestyle
     {
         $parts = ['media', $this->model->id, $this->style['id'], strtotime($this->model->updated_at)];
 
-        return str_slug(implode(" ", $parts));
+        return str_slug(implode(' ', $parts));
     }
 
     public function getPath()
@@ -72,6 +76,6 @@ class Imagestyle
             trim($this->model->source, '/')
         ];
 
-        return implode("/", $parts);
+        return implode('/', $parts);
     }
 }
