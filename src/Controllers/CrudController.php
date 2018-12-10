@@ -9,6 +9,8 @@ use LaravelAdmin\Crud\Controllers\ResourceController as BaseController;
 
 class CrudController extends BaseController
 {
+    protected $authorizedRoles = ['editor', 'administrator'];
+
     protected $model = Media::class;
 
     protected $singular_name = 'media';
