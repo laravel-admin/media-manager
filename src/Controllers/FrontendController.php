@@ -4,7 +4,6 @@ namespace LaravelAdmin\MediaManager\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use LaravelAdmin\MediaManager\Models\Media;
 use LaravelAdmin\MediaManager\Imagestyle;
 use Storage;
@@ -15,6 +14,7 @@ class FrontendController extends Controller
     {
         $this->middleware(config('media.routes.frontend.middleware'));
     }
+
     /**
      * Get the file based on the media object
      * @param  Request $request
@@ -22,7 +22,7 @@ class FrontendController extends Controller
      * @param  string  $slug    Optionally send the name of the file
      * @return Response
      */
-    public function file(Request $request, $id, $slug="")
+    public function file(Request $request, $id, $slug = '')
     {
         $media = Media::findOrFail($id);
 
@@ -42,7 +42,7 @@ class FrontendController extends Controller
      * @param  string  $slug       Optionally send the name of the file in the url
      * @return Response
      */
-    public function img(Request $request, $imagestyle, $id, $slug="")
+    public function img(Request $request, $imagestyle, $id, $slug = '')
     {
         $media = Media::findOrFail($id);
 
