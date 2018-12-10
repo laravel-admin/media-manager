@@ -19,9 +19,8 @@ class AjaxController extends Controller
         $builder = Media::orderBy('created_at', 'desc');
 
         if ($request->has('type') && !empty($request->type)) {
-            $parts = explode('/', $request->type);
-            if (isset($parts[1])) {
-                $builder->where('type', 'like', '%' . $parts[1]);
+            foreach (explode(',', $request->type) as $type) {
+                $builder->orWhere('type', $type);
             }
         }
 
