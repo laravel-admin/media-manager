@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use LaravelAdmin\MediaManager\Models\Media;
 use LaravelAdmin\MediaManager\Upload;
 use LaravelAdmin\Crud\Controllers\ResourceController as BaseController;
+use LaravelAdmin\Crud\Fields\RenderList;
+use Illuminate\Support\Facades\Route;
 
 class CrudController extends BaseController
 {
@@ -18,6 +20,32 @@ class CrudController extends BaseController
 
     protected $list_order_by = 'created_at';
     protected $list_search_on = 'name';
+
+    public function index(Request $request)
+    {
+        $this->checkRole();
+
+        //	Get all records of the model and set default ordering
+        $builder = $this->model('orderBy', $request->orderby ?: ((property_exists($this, 'list_order_by')) ? $this->list_order_by : 'name'), $request->order ?: ((property_exists($this, 'list_order')) ? $this->list_order : 'desc'));
+
+        //	Retrieve the fields which will be used in records table
+        $fields = new RenderList($this->getFieldsForList());
+
+        // Handle list search
+        if ($request->has('s')) {
+            $builder->where($this->list_search_on, 'LIKE', '%' . $request->s . '%');
+        }
+
+        // Handle list filtering
+        if ($request->has('filter') && $request->has('set')) {
+            $builder->where($request->filter, $request->set);
+        }
+
+        // Move $builder to $records with default paging of 40 p/p
+        $records = $builder->paginate(40);
+
+        return view('media-manager::backend.crud.index-' . Route::current()->uri, $this->parseViewData(compact('records', 'fields')));
+    }
 
     public function store(Request $request)
     {
@@ -38,7 +66,6 @@ class CrudController extends BaseController
                 return $this->redirect('index');
             }
         } catch (\Exception $ex) {
-            // dd($ex);
             $this->flash($ex->getMessage(), 'danger');
         }
 
@@ -49,7 +76,7 @@ class CrudController extends BaseController
     {
         $this->validate($request, $this->getValidationRulesOnUpdate(), $this->getValidationMessagesOnUpdate());
 
-        $model = parent::getModelInstance($id); //parent::update($request, $id, false);
+        $model = parent::getModelInstance($id);
 
         if ($request->file('replace')) {
             Upload::update($model)->handle($request, 'replace');
@@ -126,5 +153,20 @@ class CrudController extends BaseController
             'name' => 'required',
             'replace' => $check
         ];
+    }
+
+    protected function getSubmenuForList()
+    {
+        $menu = [
+            ['url' => route('admin.media.create'), 'title' => 'Add ' . $this->singular_name]
+        ];
+
+        if (Route::current()->uri === 'media-tiles') {
+            $menu = array_merge($menu, [['url' => route('admin.media.index'), 'title' => 'Show table']]);
+        } else {
+            $menu = array_merge($menu, [['url' => route('admin.media-tiles.index'), 'title' => 'Show tiles']]);
+        }
+
+        return $menu;
     }
 }
