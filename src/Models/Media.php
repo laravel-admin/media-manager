@@ -4,7 +4,6 @@ namespace LaravelAdmin\MediaManager\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Storage;
-
 use LaravelAdmin\MediaManager\Imagestyle;
 
 class Media extends Model
@@ -19,19 +18,19 @@ class Media extends Model
      * Attributes of the model which can be mass assigned
      * @var array
      */
-    protected $fillable = ['active','user_id', 'name','size','type','storage','source','styles'];
+    protected $fillable = ['active', 'user_id', 'name', 'size', 'type', 'storage', 'source', 'styles'];
 
     /**
      * Atributes to cast in the model as the given value
      * @var array
      */
-    protected $casts = ['active'=>'boolean', 'styles'=>'array'];
+    protected $casts = ['active' => 'boolean', 'styles' => 'array'];
 
     /**
      * Accessors to add to a model when exporting it to JSON
      * @var array
      */
-    protected $appends = ['url','thumbnail','sizeFormatted'];
+    protected $appends = ['url', 'thumbnail', 'sizeFormatted'];
 
     /**
      * Define the relationship with a user model
@@ -61,7 +60,7 @@ class Media extends Model
             return Storage::disk($this->storage)->url($this->source);
         }
 
-        return url(implode('/', [config('media.routes.frontend.options.prefix'),'file', $this->id, $this->name]));
+        return url(implode('/', [config('media.routes.frontend.options.prefix'), 'file', $this->id, $this->name]));
     }
 
     /**
@@ -97,7 +96,7 @@ class Media extends Model
     {
         $precision = 2;
         $base = log($this->size, 1024);
-        $suffixes = array('', 'k', 'M', 'G', 'T');
+        $suffixes = ['', 'k', 'M', 'G', 'T'];
 
         return round(pow(1024, $base - floor($base)), $precision) . $suffixes[floor($base)];
     }
@@ -110,10 +109,10 @@ class Media extends Model
     {
         $return = collect();
 
-        foreach (config('media.imagestyles') as $key=>$value) {
+        foreach (config('media.imagestyles') as $key => $value) {
             $return->push([
-                'path'		=>	$this->imagestylePath($key),
-                'url'		=>	$this->imagestyleUrl($key),
+                'path' => $this->imagestylePath($key),
+                'url' => $this->imagestyleUrl($key),
             ]);
         }
 
@@ -129,7 +128,7 @@ class Media extends Model
     public function imagestyleUrl($style)
     {
         if (!$path = $this->imagestylePath($style)) {
-            return url(implode('/', ['img',$style, $this->id, $this->name]));
+            return url(implode('/', ['img', $style, $this->id, $this->name]));
         }
 
         return Storage::disk($this->storage)->url($path);
@@ -200,7 +199,6 @@ class Media extends Model
      * @param array $ids
      * @return int | null
      */
-
     public static function deleteMultiple(array $collection)
     {
         if (!is_array($collection)) {
