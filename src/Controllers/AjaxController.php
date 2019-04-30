@@ -18,14 +18,20 @@ class AjaxController extends Controller
     {
         $builder = Media::orderBy('created_at', 'desc');
 
-        if ($request->has('type') && !empty($request->type)) {
+        if ($request->has('s') && !empty($request->s)) {
+            $builder->where('name', 'like', '%' . $request->s . '%');
+            if ($request->has('type') && !empty($request->type)) {
+                $types = $request->type;
+                $builder->where(function ($query) use ($types) {
+                    foreach (explode(',', $types) as $type) {
+                        $query->orWhere('type', $type);
+                    }
+                });
+            }
+        } elseif ($request->has('type') && !empty($request->type)) {
             foreach (explode(',', $request->type) as $type) {
                 $builder->orWhere('type', $type);
             }
-        }
-
-        if ($request->has('s') && !empty($request->s)) {
-            $builder->where('name', 'like', '%' . $request->s . '%');
         }
 
         return $builder->paginate(12);
