@@ -11,7 +11,7 @@ class SaveToCache implements ImagestyleAction
     protected $config;
     protected $style;
 
-    public function __construct(Imagestyle $style, array $config=[])
+    public function __construct(Imagestyle $style, array $config = [])
     {
         $this->style = $style;
         $this->config = $config;

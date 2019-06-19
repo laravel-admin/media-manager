@@ -45,10 +45,10 @@ class FileUpload implements UploadDriver
             if ($path = $request->file($reference)->store($this->uploader->getPath(), $this->uploader->getStorage())) {
                 //	Create an array with data about the uploaded file
                 $model_data = [
-                        'name' => Helpers::cleanFilename($request->file($reference)->getClientOriginalName()),
-                        'type' => $request->file($reference)->getMimeType(),
-                        'size' => $request->file($reference)->getClientSize(),
-                        'source' => $path,
+                    'name' => Helpers::cleanFilename($request->file($reference)->getClientOriginalName()),
+                    'type' => $request->file($reference)->getMimeType(),
+                    'size' => $request->file($reference)->getClientSize(),
+                    'source' => $path,
                 ];
 
                 return $model_data;

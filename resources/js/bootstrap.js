@@ -1,34 +1,35 @@
-Vue.component('media-item', require('./components/MediaItem.vue'));
-Vue.component('media-browser', require('./components/MediaBrowser.vue'));
-Vue.component('media-dropzone', require('./components/MediaDropzone.vue'));
+import MediaItem from './components/MediaItem.vue';
+Vue.component('media-item', MediaItem);
 
-if (typeof window.VueHub === 'undefined')
-{
-	window.VueHub = new Vue();
+import MediaBrowser from './components/MediaBrowser.vue';
+Vue.component('media-browser', MediaBrowser);
+
+import MediaDropzone from './components/MediaDropzone.vue';
+Vue.component('media-dropzone', MediaDropzone);
+
+if (typeof window.VueHub === 'undefined') {
+    window.VueHub = new Vue();
 }
 
-(function() {
+(function () {
 
-	$(function()
-	{
-		//	Check-all
-	   	$("input.check-all").on('change', function()
-	   	{
-		  	let scope = $(this).data('scope');
+    $(function () {
+        //	Check-all
+        $("input.check-all").on('change', function () {
+            let scope = $(this).data('scope');
 
-		  	if (!scope) return;
+            if (!scope) return;
 
-			let status = $(this).prop('checked');
+            let status = $(this).prop('checked');
 
-		  	$('input[type=checkbox]'+scope).prop('checked', status);
-	   });
+            $('input[type=checkbox]' + scope).prop('checked', status);
+        });
 
-	   //	Linkable table row
-	   $("tr[data-link] td:not(:has(*))").on('click', function()
-	   {
-		   window.location = $(this).parents('tr').data('link');
-	   });
+        //	Linkable table row
+        $("tr[data-link] td:not(:has(*))").on('click', function () {
+            window.location = $(this).parents('tr').data('link');
+        });
 
-	});
+    });
 
 })($);

@@ -9,7 +9,7 @@ trait MediaTrait
         return $this->belongsTo(\LaravelAdmin\MediaManager\Models\Media::class);
     }
 
-    public function mediaUrl($field="media")
+    public function mediaUrl($field = 'media')
     {
         if (!method_exists($this, $field)) {
             return '';
@@ -22,7 +22,7 @@ trait MediaTrait
         return $relation->url;
     }
 
-    public function imagestyle($style, $field="media")
+    public function imagestyle($style, $field = 'media')
     {
         if (!method_exists($this, $field)) {
             return '';

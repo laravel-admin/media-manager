@@ -16,16 +16,16 @@ class Helpers
 
     public static function parsePath($path)
     {
-        $parts = collect(explode("/", $path));
+        $parts = collect(explode('/', $path));
 
         $parts = $parts->map(function ($item) {
-            if (strpos($item, "%") !== false) {
+            if (strpos($item, '%') !== false) {
                 return date(substr($item, 1));
             }
 
             return $part;
         });
 
-        return implode("/", $parts->all());
+        return implode('/', $parts->all());
     }
 }

@@ -27,13 +27,13 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::group(config('media.routes.backend.options'), function () {
             Route::resource('media', config('media.routes.backend.controller'), ['names' => [
-                 'index' => config('media.routes.backend.name') . 'index',
-                 'create' => config('media.routes.backend.name') . 'create',
-                 'store' => config('media.routes.backend.name') . 'store',
-                 'edit' => config('media.routes.backend.name') . 'edit',
-                 'show' => config('media.routes.backend.name') . 'show',
-                 'update' => config('media.routes.backend.name') . 'update',
-                 'destroy' => config('media.routes.backend.name') . 'destroy',
+                'index' => config('media.routes.backend.name') . 'index',
+                'create' => config('media.routes.backend.name') . 'create',
+                'store' => config('media.routes.backend.name') . 'store',
+                'edit' => config('media.routes.backend.name') . 'edit',
+                'show' => config('media.routes.backend.name') . 'show',
+                'update' => config('media.routes.backend.name') . 'update',
+                'destroy' => config('media.routes.backend.name') . 'destroy',
             ]]);
         });
     }

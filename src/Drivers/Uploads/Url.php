@@ -6,15 +6,12 @@ use Illuminate\Http\Request;
 use LaravelAdmin\MediaManager\Contracts\UploadDriver;
 use LaravelAdmin\MediaManager\Helpers;
 use LaravelAdmin\MediaManager\Upload;
-
 use Storage;
-
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Exception\RequestException;
 
 class Url implements UploadDriver
 {
-
     /**
      * The uploader instance who called this object
      * @var Upload
@@ -44,26 +41,26 @@ class Url implements UploadDriver
         try {
             $res = $client->request('GET', $reference);
         } catch (RequestException $e) {
-            throw new \RuntimeException('The url '.$reference.' is not accessible');
+            throw new \RuntimeException('The url ' . $reference . ' is not accessible');
         }
 
         //	Response code has to be lower dan 300 to save the file
         if ($res->getStatusCode() >= 300) {
-            throw new Exception('The url '.$reference.' is not accessible');
+            throw new Exception('The url ' . $reference . ' is not accessible');
         }
 
-        $data 			= 	(string)$res->getBody();
-        $filename		=	$this->getFilenameFromUrl($reference);
-        $server_filename= 	md5($data).".".$this->getExtensionFromUrl($reference);
-        $path 			=	$this->uploader->getPath().'/'.$server_filename;
+        $data = (string)$res->getBody();
+        $filename = $this->getFilenameFromUrl($reference);
+        $server_filename = md5($data) . '.' . $this->getExtensionFromUrl($reference);
+        $path = $this->uploader->getPath() . '/' . $server_filename;
 
         Storage::disk($this->uploader->getStorage())->put($path, $data);
 
         $model_data = [
-                'name'		=>	Helpers::cleanFilename($filename),
-                'type'		=>	$res->getHeader('content-type')[0],
-                'size'		=>	$res->getHeader('content-length')[0],
-                'source'	=>	$path,
+            'name' => Helpers::cleanFilename($filename),
+            'type' => $res->getHeader('content-type')[0],
+            'size' => $res->getHeader('content-length')[0],
+            'source' => $path,
         ];
 
         return $model_data;
@@ -77,7 +74,7 @@ class Url implements UploadDriver
     protected function getFilenameFromUrl($url)
     {
         $path = parse_url($url, PHP_URL_PATH);
-        $parts = explode("/", $path);
+        $parts = explode('/', $path);
 
         return end($parts);
     }
@@ -90,8 +87,8 @@ class Url implements UploadDriver
     protected function getExtensionFromUrl($url)
     {
         $filename = $this->getFilenameFromUrl($url);
-        $dot = strripos($filename, ".");
+        $dot = strripos($filename, '.');
 
-        return substr($filename, $dot+1);
+        return substr($filename, $dot + 1);
     }
 }
