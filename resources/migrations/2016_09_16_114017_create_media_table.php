@@ -16,18 +16,18 @@ class CreateMediaTable extends Migration
         Schema::create('media', function (Blueprint $table) {
             $table->increments('id');
 
-			$table->boolean('active');
-			$table->integer('user_id')->unsigned()->nullable();
-			$table->string('name');
-			$table->text('description')->nullable();
-			$table->string('storage')->nullable();
-			$table->string('source')->nullable();
-			$table->string('type')->nullable();
-			$table->integer('size')->nullable();
-			
-			$table->text('styles')->nullable();
+            $table->boolean('active');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('storage')->nullable();
+            $table->string('source')->nullable();
+            $table->string('type')->nullable();
+            $table->integer('size')->nullable();
 
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->text('styles')->nullable();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 
             $table->timestamps();
         });
@@ -40,10 +40,9 @@ class CreateMediaTable extends Migration
      */
     public function down()
     {
-		Schema::table('media', function(Blueprint $table)
-		{
-			$table->dropForeign('media_user_id_foreign');
-		});
+        Schema::table('media', function (Blueprint $table) {
+            $table->dropForeign('media_user_id_foreign');
+        });
 
         Schema::dropIfExists('media');
     }

@@ -100,14 +100,14 @@ class Upload
     {
         //	Define the data to put into the model
         $vars = [
-                'active' => $this->active,
-                'user_id' => auth()->user() ? auth()->user()->id : null,
-                'name' => $data['name'],
-                'type' => $data['type'],
-                'size' => $data['size'],
-                'source' => $data['source'],
-                'storage' => $this->storage,
-                'styles' => null,
+            'active' => $this->active,
+            'user_id' => auth()->user() ? auth()->user()->id : null,
+            'name' => $data['name'],
+            'type' => $data['type'],
+            'size' => $data['size'],
+            'source' => $data['source'],
+            'storage' => $this->storage,
+            'styles' => null,
         ];
 
         //	Passed through an existing model to overwrite
@@ -206,8 +206,8 @@ class Upload
         }
 
         $parts = [
-                trim(config('media.path.root'), '/'),
-                Helpers::parsePath(trim(config('media.path.format'), '/'))
+            trim(config('media.path.root'), '/'),
+            Helpers::parsePath(trim(config('media.path.format'), '/'))
         ];
 
         return implode('/', $parts);

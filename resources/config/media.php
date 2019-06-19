@@ -15,8 +15,8 @@ return [
         'allowed_filetypes' => null,
 
         'drivers' => [
-                'fileupload' => LaravelAdmin\MediaManager\Drivers\Uploads\FileUpload::class,
-                'url' => LaravelAdmin\MediaManager\Drivers\Uploads\Url::class,
+            'fileupload' => LaravelAdmin\MediaManager\Drivers\Uploads\FileUpload::class,
+            'url' => LaravelAdmin\MediaManager\Drivers\Uploads\Url::class,
         ],
     ],
 
@@ -68,7 +68,7 @@ return [
     ],
 
     'views' => [
-            'layout' => 'layouts.app',
-            'section' => 'content',
+        'layout' => 'layouts.app',
+        'section' => 'content',
     ],
 ];
