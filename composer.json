@@ -2,22 +2,26 @@
     "name": "laravel-admin/media-manager",
     "description": "Provides a model around the storage, gives you image styles and a admin to manage your media",
     "type": "laravel-package",
+    "license": "MIT",
+    "minimum-stability": "dev",
     "require": {
-		"php": "^5.6 || ^7.0",
-        "guzzlehttp/guzzle": "^6.2",
-        "intervention/image": "^2.3"
+        "php": "^7.0",
+        "guzzlehttp/guzzle": "^6.3",
+        "intervention/image": "^2.5"
     },
     "autoload": {
-		"psr-4": {
-			"LaravelAdmin\\MediaManager\\": "src"
-		}
+        "psr-4": {
+            "LaravelAdmin\\MediaManager\\": "src"
+        }
     },
-    "license": "MIT",
     "authors": [
         {
             "name": "Marco boom",
             "email": "info@marcoboom.nl"
+        },
+        {
+            "name": "Bas de Beer",
+            "email": "bas.de.beer@in10.nl"
         }
-    ],
-    "minimum-stability": "dev"
+    ]
 }
