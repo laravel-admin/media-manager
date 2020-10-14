@@ -135,7 +135,7 @@ class Media extends Model
     public function imagestyleUrl($style)
     {
         if (!$path = $this->imagestylePath($style)) {
-            return url(implode('/', ['img', $style, $this->id, $this->name]));
+            return url(implode('/', [config('app.url'), 'img', $style, $this->id, $this->name]));
         }
 
         return Storage::disk($this->storage)->url($path);
