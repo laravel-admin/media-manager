@@ -3,37 +3,42 @@
 namespace LaravelAdmin\MediaManager\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Storage;
 use LaravelAdmin\MediaManager\Imagestyle;
+use Storage;
 
 class Media extends Model
 {
     /**
      * Database table to use
+     *
      * @var string
      */
     protected $table = 'media';
 
     /**
      * Attributes of the model which can be mass assigned
+     *
      * @var array
      */
     protected $fillable = ['active', 'user_id', 'name', 'size', 'type', 'storage', 'source', 'styles'];
 
     /**
      * Atributes to cast in the model as the given value
+     *
      * @var array
      */
     protected $casts = ['active' => 'boolean', 'styles' => 'array'];
 
     /**
      * Accessors to add to a model when exporting it to JSON
+     *
      * @var array
      */
     protected $appends = ['url', 'thumbnail', 'sizeFormatted'];
 
     /**
      * Define the relationship with a user model
+     *
      * @return Relation
      */
     public function user()
@@ -43,6 +48,7 @@ class Media extends Model
 
     /**
      * Shortcut to get direct access to the url of the thumbnail
+     *
      * @return string
      */
     public function getThumbnailAttribute()
@@ -52,6 +58,7 @@ class Media extends Model
 
     /**
      * Accessor wich gives directly the url of the stored media item
+     *
      * @return string
      */
     public function getUrlAttribute()
@@ -66,8 +73,7 @@ class Media extends Model
     /**
      * Create a boolean to check if a file is an image
      *
-     * @access public
-     * @return boolean
+     * @return bool
      */
     public function getImageAttribute()
     {
@@ -77,8 +83,8 @@ class Media extends Model
     /**
      * Select only images
      *
-     * @access public
      * @param mixed $query
+     *
      * @return void
      */
     public function scopeImages($query)
@@ -89,7 +95,6 @@ class Media extends Model
     /**
      * Get the size of a file in a readable format
      *
-     * @access public
      * @return string
      */
     public function getSizeFormattedAttribute()
@@ -103,6 +108,7 @@ class Media extends Model
 
     /**
      * Get information about all available imagestyles, including a url and path
+     *
      * @return Collection
      */
     public function imagestyles()
@@ -123,12 +129,13 @@ class Media extends Model
      * Get the full url of an imagestyle
      *
      * @param mixed $crop
+     *
      * @return string
      */
     public function imagestyleUrl($style)
     {
         if (!$path = $this->imagestylePath($style)) {
-            return url(implode('/', ['img', $style, $this->id, $this->name]));
+            return url(implode('/', [config('app.url'), 'img', $style, $this->id, $this->name]));
         }
 
         return Storage::disk($this->storage)->url($path);
@@ -136,7 +143,9 @@ class Media extends Model
 
     /**
      * Get the path of an imagestyle
-     * @param  string $style
+     *
+     * @param string $style
+     *
      * @return string | null
      */
     public function imagestylePath($style)
@@ -146,13 +155,16 @@ class Media extends Model
         }
 
         $imagestyle = new Imagestyle($this, $style);
+
         return $imagestyle->getPath();
     }
 
     /**
      * Check if there is a stored imagestyle available
-     * @param  string $style
-     * @return boolean
+     *
+     * @param string $style
+     *
+     * @return bool
      */
     public function imagestyleExists($style)
     {
@@ -165,7 +177,8 @@ class Media extends Model
 
     /**
      * Extend the default delete function to also delete the related storage item
-     * @return boolean
+     *
+     * @return bool
      */
     public function delete()
     {
@@ -176,6 +189,7 @@ class Media extends Model
 
     /**
      * Delete the storaged item including the stored imagestyles
+     *
      * @return void
      */
     public function deleteInStorage()
@@ -194,9 +208,10 @@ class Media extends Model
     /**
      * Delete multiple files at once
      *
-     * @access public
      * @static
+     *
      * @param array $ids
+     *
      * @return int | null
      */
     public static function deleteMultiple(array $collection)
