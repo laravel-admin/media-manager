@@ -5,7 +5,8 @@
     "license": "MIT",
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.0",
+        "php": "^7.2.5|^8.0",
+        "laravel/framework": "6.20.*",
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.5"
     },
