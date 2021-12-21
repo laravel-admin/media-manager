@@ -5,9 +5,10 @@
     "license": "MIT",
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.0",
-        "guzzlehttp/guzzle": "^6.3",
-        "intervention/image": "^2.5"
+        "php": "^7.3|^8.0",
+        "laravel/framework": "^8.0",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "intervention/image": "^2.7"
     },
     "autoload": {
         "psr-4": {

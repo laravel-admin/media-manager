@@ -2,9 +2,10 @@
 
 namespace LaravelAdmin\MediaManager;
 
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManagerStatic as ImageMaker;
 use LaravelAdmin\MediaManager\Models\Media;
 use Storage;
-use Intervention\Image\ImageManagerStatic as ImageMaker;
 
 class Imagestyle
 {
@@ -21,8 +22,8 @@ class Imagestyle
     /**
      * getStyle function.
      *
-     * @access protected
      * @param mixed $name
+     *
      * @return void
      */
     protected function getStyle($name)
@@ -65,7 +66,7 @@ class Imagestyle
     {
         $parts = ['media', $this->model->id, $this->style['id'], strtotime($this->model->updated_at)];
 
-        return str_slug(implode(' ', $parts));
+        return Str::slug(implode(' ', $parts));
     }
 
     public function getPath()
