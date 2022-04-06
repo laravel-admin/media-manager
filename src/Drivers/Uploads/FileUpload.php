@@ -11,13 +11,13 @@ class FileUpload implements UploadDriver
 {
     /**
      * The uploader instance who called this object
+     *
      * @var Upload
      */
     protected $uploader;
 
     /**
      * Initialize the object from the given uploader
-     * @param Upload $uploader
      */
     public function __construct(Upload $uploader)
     {
@@ -26,9 +26,10 @@ class FileUpload implements UploadDriver
 
     /**
      * Main method for this class to handle the request
-     * @param  Request $request
-     * @param  string  $reference (the name of the uploaded file)
-     * @return array | null
+     *
+     * @param string $reference (the name of the uploaded file)
+     *
+     * @return array|null
      */
     public function handle(Request $request, $reference)
     {
@@ -47,7 +48,7 @@ class FileUpload implements UploadDriver
                 $model_data = [
                     'name' => Helpers::cleanFilename($request->file($reference)->getClientOriginalName()),
                     'type' => $request->file($reference)->getMimeType(),
-                    'size' => $request->file($reference)->getClientSize(),
+                    'size' => $request->file($reference)->getSize(),
                     'source' => $path,
                 ];
 
