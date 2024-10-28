@@ -6,10 +6,10 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^8.1|^8.2",
-        "laravel/framework": "^10.0|^11.0",
+        "ext-gd": "*",
         "guzzlehttp/guzzle": "^7.8",
         "intervention/image": "^3.0",
-        "ext-gd": "*"
+        "laravel/framework": "^10.0|^11.0"
     },
     "autoload": {
         "psr-4": {
@@ -25,5 +25,8 @@
             "name": "Bas de Beer",
             "email": "bas.de.beer@in10.nl"
         }
-    ]
+    ],
+    "config": {
+        "sort-packages": true
+    }
 }
