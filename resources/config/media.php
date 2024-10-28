@@ -52,7 +52,7 @@ return [
             'name' => 'Thumbnail (100x100)',
             'actions' => [
                 LaravelAdmin\MediaManager\Drivers\Responses\GetFromCache::class => [],
-                LaravelAdmin\MediaManager\Drivers\Effects\Crop::class => ['width' => 100, 'height' => 100],
+                LaravelAdmin\MediaManager\Drivers\Effects\Fit::class => ['width' => 100, 'height' => 100],
                 LaravelAdmin\MediaManager\Drivers\Responses\SaveToCache::class => [],
             ]
         ],
