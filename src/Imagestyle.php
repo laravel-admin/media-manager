@@ -2,21 +2,20 @@
 
 namespace LaravelAdmin\MediaManager;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\ImageManagerStatic as ImageMaker;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageInterface;
 use LaravelAdmin\MediaManager\Models\Media;
-use Storage;
 
 class Imagestyle
 {
     public $style;
-    public $model;
-    public $img;
+    public ImageInterface $img;
 
-    public function __construct(Media $model, $style)
+    public function __construct(public Media $model, $style)
     {
         $this->style = $this->getStyle($style);
-        $this->model = $model;
     }
 
     /**
@@ -46,7 +45,8 @@ class Imagestyle
         } catch (\Illuminate\Contracts\Filesystem\FileNotFoundException $e) {
             return null;
         }
-        $this->img = ImageMaker::make($data);
+        $imageManager = ImageManager::gd();
+        $this->img = $imageManager->read($data);
 
         foreach ($this->style['actions'] as $class => $options) {
             $action = new $class($this, $options);
@@ -57,9 +57,9 @@ class Imagestyle
             }
         }
 
-        $response = $this->img->response();
-
-        return $response;
+        return response()->stream(function () {
+            echo $this->img->encode();
+        }, 200, ['Content-Type' => $this->model->type]);
     }
 
     public function getCacheKey()

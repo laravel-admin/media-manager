@@ -7,13 +7,8 @@ use LaravelAdmin\MediaManager\Contracts\ImagestyleAction;
 
 class ResizeCanvas implements ImagestyleAction
 {
-    protected $config;
-    protected $style;
-
-    public function __construct(Imagestyle $style, array $config = [])
+    public function __construct(protected Imagestyle $style, protected array $config = [])
     {
-        $this->style = $style;
-        $this->config = $config;
     }
 
     public function handle()
