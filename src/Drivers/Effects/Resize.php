@@ -2,8 +2,8 @@
 
 namespace LaravelAdmin\MediaManager\Drivers\Effects;
 
-use LaravelAdmin\MediaManager\Imagestyle;
 use LaravelAdmin\MediaManager\Contracts\ImagestyleAction;
+use LaravelAdmin\MediaManager\Imagestyle;
 
 class Resize implements ImagestyleAction
 {
@@ -13,8 +13,12 @@ class Resize implements ImagestyleAction
 
     public function handle()
     {
-        $this->style->img->resize($this->config['width'], $this->config['height'], function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        if (!is_null($this->config['width']) && !is_null($this->config['height'])) {
+            $this->style->img->scaleDown($this->config['width'], $this->config['height']);
+        } elseif (!is_null($this->config['width'])) {
+            $this->style->img->scaleDown(width: $this->config['width']);
+        } elseif (!is_null($this->config['height'])) {
+            $this->style->img->scaleDown(height: $this->config['height']);
+        }
     }
 }
