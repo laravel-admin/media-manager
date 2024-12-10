@@ -46,8 +46,11 @@ class FrontendController extends Controller
     {
         $media = Media::findOrFail($id);
 
-        $image = new Imagestyle($media, $imagestyle);
-
-        return $image->handle();
+        try {
+            $image = new Imagestyle($media, $imagestyle);
+            return $image->handle();
+        } catch (UnableToReadFile $e) {
+            abort(404);
+        }
     }
 }
