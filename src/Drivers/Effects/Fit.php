@@ -2,8 +2,8 @@
 
 namespace LaravelAdmin\MediaManager\Drivers\Effects;
 
-use LaravelAdmin\MediaManager\Imagestyle;
 use LaravelAdmin\MediaManager\Contracts\ImagestyleAction;
+use LaravelAdmin\MediaManager\Imagestyle;
 
 class Fit implements ImagestyleAction
 {
@@ -13,6 +13,6 @@ class Fit implements ImagestyleAction
 
     public function handle()
     {
-        $this->style->img->cover($this->config['width'], $this->config['height']);
+        $this->style->img->coverDown($this->config['width'], $this->config['height']);
     }
 }
