@@ -2,9 +2,9 @@
 	<div :id="'media-browser-'+name" class="modal fade media-browser in show"  tabindex="-1" role="dialog" style="overflow-y:inherit; max-height:inherit;">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-				
+
 				<div class="modal-header">
-					
+
 					<div class="col-xs-6">
 						<h4 class="modal-title">Media</h4>
 					</div>
@@ -19,10 +19,18 @@
 
 					<div v-if="showMessage" v-html="errorMessage" class="alert alert-danger"></div>
 
+					<div v-if="deleteWarning" class="alert alert-warning">
+						<strong>Cannot delete:</strong> This image is still in use:
+						<ul>
+							<li v-for="linked in linkedObjects">{{ linked.model }} ({{ linked.count }}): {{ linked.records.map(r => r.name).join(', ') }}</li>
+						</ul>
+						<small>Remove the image from these items first before deleting.</small>
+					</div>
+
 					<div class="row">
 						<media-dropzone :name="name" :filetypes="filetypes" :files.sync="items" clickable=".media-browser-upload" :path="controller" @file-upload-error="showUploadError"></media-dropzone>
 					</div>
-	      	
+
 					<div class="row">
 						<template v-if="items.length">
 							<table class="table table-hover" v-if="tableView">
@@ -64,9 +72,10 @@
 					<button type="button" class="btn btn-info" v-text="tableView ? 'Tiles' : 'Table'" @click.prevent="tableView = !tableView"></button>
 					<button type="button" class="btn btn-primary media-browser-upload">Upload</button>
 					<button type="button" class="btn btn-default" @click="$emit('close')">Close</button>
+					<button type="button" class="btn btn-danger" :disabled="!hasSelection || deleting" v-on:click.prevent="deleteSelected">{{ deleting ? 'Deleting...' : 'Delete' }}</button>
 					<button type="button" class="btn btn-primary confirm" :disabled="!hasSelection" v-on:click.prevent="confirmSelection">Confirm</button>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
@@ -77,7 +86,7 @@
     export default {
 
 		data() {
-			return {tableView:true, search:null, keyword:'', showmore:false, items:[], next_page:1, showMessage:false};
+			return {tableView:true, search:null, keyword:'', showmore:false, items:[], next_page:1, showMessage:false, deleteWarning:false, linkedObjects:[], deleting:false};
 		},
 
 		mounted()
@@ -101,7 +110,7 @@
             selected : {
                 default : null
 			},
-			
+
             multiple : {
                 default : false
             }
@@ -179,6 +188,36 @@
 					this.$emit('update', selection.shift());
 					this.$emit('close');
 				}
+			},
+
+			deleteSelected: function()
+			{
+				let item = this.selectedItems()[0];
+				if (!item) return;
+
+				this.deleteWarning = false;
+				this.linkedObjects = [];
+
+				if (!confirm('Are you sure you want to permanently delete this file from the server?')) return;
+
+				this.deleting = true;
+
+				axios.delete(this.controller + '/' + item.id).then(function(response)
+				{
+					this.items = this.items.filter(function(i) { return i.id !== item.id; });
+					this.deleting = false;
+				}.bind(this)).catch(function(error)
+				{
+					this.deleting = false;
+
+					if (error.response && error.response.status === 409) {
+						this.linkedObjects = error.response.data.linked_objects;
+						this.deleteWarning = true;
+					} else {
+						this.errorMessage = 'An error occurred while deleting the file.';
+						this.showMessage = true;
+					}
+				}.bind(this));
 			},
 
 			showUploadError: function(args){

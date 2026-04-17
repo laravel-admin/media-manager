@@ -64,4 +64,57 @@ class AjaxController extends Controller
     {
         return Media::findOrFail($id);
     }
+
+    /**
+     * Delete a media item if it is not linked to any objects
+     * @param  int $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $media = Media::findOrFail($id);
+
+        $linkedObjects = [];
+
+        if ($types = config('media.types')) {
+            foreach ($types as $type) {
+                if (!isset($type['fields']) || !class_exists($type['model'])) {
+                    continue;
+                }
+
+                $query = $type['model']::query();
+                $query->where(function ($q) use ($type, $id) {
+                    foreach ($type['fields'] as $field) {
+                        $q->orWhere($field, $id);
+                    }
+                });
+
+                $records = $query->get();
+
+                if ($records->count() > 0) {
+                    $linkedObjects[] = [
+                        'model' => class_basename($type['model']),
+                        'count' => $records->count(),
+                        'records' => $records->map(function ($r) {
+                            return [
+                                'id' => $r->id,
+                                'name' => $r->name ?? $r->title ?? "#{$r->id}",
+                            ];
+                        })->values(),
+                    ];
+                }
+            }
+        }
+
+        if (!empty($linkedObjects)) {
+            return response()->json([
+                'message' => 'This image is still in use and cannot be deleted.',
+                'linked_objects' => $linkedObjects,
+            ], 409);
+        }
+
+        $media->delete();
+
+        return response()->json(['message' => 'Media deleted successfully.']);
+    }
 }
