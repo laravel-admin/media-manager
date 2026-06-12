@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Interfaces\ImageInterface;
+use LaravelAdmin\MediaManager\Exceptions\ImagestyleNotFound;
 use LaravelAdmin\MediaManager\Models\Media;
 
 class Imagestyle
@@ -28,7 +29,7 @@ class Imagestyle
     protected function getStyle($name)
     {
         if (!config('media.imagestyles.' . $name)) {
-            throw new \BadMethodCallException('Imagestyle (' . $name . ') not found');
+            throw new ImagestyleNotFound('Imagestyle (' . $name . ') not found');
         }
 
         return config('media.imagestyles.' . $name);

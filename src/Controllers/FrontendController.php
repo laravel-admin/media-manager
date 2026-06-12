@@ -4,8 +4,10 @@ namespace LaravelAdmin\MediaManager\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use LaravelAdmin\MediaManager\Exceptions\ImagestyleNotFound;
 use LaravelAdmin\MediaManager\Models\Media;
 use LaravelAdmin\MediaManager\Imagestyle;
+use League\Flysystem\UnableToReadFile;
 use Storage;
 
 class FrontendController extends Controller
@@ -49,7 +51,7 @@ class FrontendController extends Controller
         try {
             $image = new Imagestyle($media, $imagestyle);
             return $image->handle();
-        } catch (UnableToReadFile $e) {
+        } catch (ImagestyleNotFound | UnableToReadFile $e) {
             abort(404);
         }
     }
